@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd"
+    [   <!ENTITY suppression-comments SYSTEM "file:config/checkstyle/suppression-comments.xml">
+        <!ENTITY common-rules SYSTEM "file:config/checkstyle/common.xml"> ]
+    >
+<module name="Checker">
+    <module name="SuppressionFilter">
+        <property name="file" value="config/checkstyle/self-and-demo-suppressions.xml"/>
+    </module>
+    &suppression-comments;
+    <module name="TreeWalker">
+        <property name="cacheFile" value="build/checkstyle/checkstyle-core.cache"/>
+        &common-rules;
+        <module name="LineLength">
+            <property name="max" value="120"/>
+        </module>
+        <module name="JavaNCSS">
+            <property name="classMaximum" value="80"/>
+        </module>
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+        </module>
+        <module name="ClassDataAbstractionCoupling">
+            <property name="max" value="6"/>
+        </module>
+        <module name="ClassFanOutComplexity">
+            <property name="max" value="13"/>
+        </module>
+    </module>
+</module>

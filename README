@@ -1,0 +1,47 @@
+Hammer Readme
+==============
+
+Building
+--------
+JDK 1.5 or greater required
+
+Unix: ./build.sh all
+Win:    Somebody write one!
+
+The build can also be run from IntelliJ by running the 'all' run
+configuration. See below for Intellij config files.
+
+IntelliJ
+--------
+Intellij project files can be found in config/intellij. Copy them to the
+root directory and your're ready to go. If you have commit access, please
+don't check them into the project root.
+
+To update the settings:
+1. svn up
+2. Quit Intellij.
+3. cp config/intellij/hammer.i* .
+4. Change the settings in IntelliJ.
+5. Quit Intellij.
+6. cp hammer.i* config/intellij
+7. svn ci -m'Updated intellij settings'
+
+Documentation
+-------------
+* Simple examples of use can be found in src/demo.
+* The Hammer build in src/build is the best place to go for more complex
+* examples.
+* See the Hammer wiki at http://www.assembla.com/wiki/show/hammer for more
+  info.
+
+Layout
+------
+* All source files are split up into their components under the 'src' dir.
+* All generated files including class files go into the 'gen' directory.
+  This directory is deleted by the 'clean' target.
+* The hammer.jar is the one you will need in your own projects. It can be
+  found with the other jars in the 'gen/artifacts/jars/' directory.
+* All Hammer dependent jars are located under the 'lib' directory.
+  The quality related tols jars such as junit, jmock, simian jars are *not*
+  required for running Hammer in your project unless your code depends on
+  them.

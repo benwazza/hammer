@@ -1,0 +1,144 @@
+#! /bin/sh
+
+cygwin=false;
+darwin=false;
+case "`uname`" in
+  CYGWIN*) cygwin=true ;;
+  Darwin*) darwin=true
+           if [ -z "$JAVA_HOME" ] ; then
+             JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
+           fi
+           ;;
+esac
+
+if [ -z "$HAMMER_HOME" -o ! -d "$HAMMER_HOME" ] ; then
+  ## resolve links - $0 may be a link to hammer's home
+  PRG="$0"
+  progname=`basename "$0"`
+
+  # need this for relative symlinks
+  while [ -h "$PRG" ] ; do
+    ls=`ls -ld "$PRG"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+    else
+    PRG=`dirname "$PRG"`"/$link"
+    fi
+  done
+
+  HAMMER_HOME=`dirname "$PRG"`/..
+
+  # make it fully qualified
+  HAMMER_HOME=`cd "$HAMMER_HOME" > /dev/null && pwd`
+fi
+
+# For Cygwin, ensure paths are in UNIX format before anything is touched
+if $cygwin ; then
+  [ -n "$HAMMER_HOME" ] &&
+    HAMMER_HOME=`cygpath --unix "$HAMMER_HOME"`
+  [ -n "$JAVA_HOME" ] &&
+    JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
+fi
+
+if [ -z "$JAVACMD" ] ; then
+  if [ -n "$JAVA_HOME"  ] ; then
+    # IBM's JDK on AIX uses strange locations for the executables
+    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
+      JAVACMD="$JAVA_HOME/jre/sh/java"
+    elif [ -x "$JAVA_HOME/jre/bin/java" ] ; then
+      JAVACMD="$JAVA_HOME/jre/bin/java"
+    else
+      JAVACMD="$JAVA_HOME/bin/java"
+    fi
+  else
+    JAVACMD=`which java 2> /dev/null `
+    if [ -z "$JAVACMD" ] ; then
+        JAVACMD=java
+    fi
+  fi
+fi
+
+if [ ! -x "$JAVACMD" ] ; then
+  echo "Error: JAVA_HOME is not defined correctly."
+  echo "  We cannot execute $JAVACMD"
+  exit 1
+fi
+
+minor=`"$JAVACMD" -version 2>&1 | grep 'version' | sed -e 's/.*1\.\(.\).*/\1/'`
+
+if [ $minor -lt 6 ]; then
+  echo "Error: JAVA_HOME must point to java 1.6 or later."
+  echo "  Currently points to $JAVA_HOME"
+  exit 1
+fi
+
+
+HAMMER_LIB="${HAMMER_HOME}/lib"
+JARS=$HAMMER_LIB/hammer.jar:$HAMMER_LIB/boost.jar
+
+# FIX for Mark if he needs it, otherwise delete
+# FIX dupe. functions are cool.
+#bootstrap=`find bootstrap -name "*.jar" -type f -exec echo -n {}: \;`
+#lib=`find lib -name "*.jar" -type f -exec echo -n {}: \;`
+#jdk=`find $JAVA_HOME/lib -name "*.jar" -type f -exec echo -n {}: \;`
+#jars=${bootstrap}${lib}${jdk}
+#CLASSPATH=`echo $jars | sed 's/:$//g'`
+
+if [ -z "$CLASSPATH" ] ; then
+  CLASSPATH=$JARS
+else
+  CLASSPATH=$JARS:$CLASSPATH
+fi
+
+if $cygwin; then
+  # For Cygwin, switch paths to appropriate format before running java
+  # For PATHs convert to unix format first, then to windows format to ensure
+  # both formats are supported. Probably this will fail on directories with ;
+  # in the name in the path. Let's assume that paths containing ; are more
+  # rare than windows style paths on cygwin.
+  if [ "$OS" = "Windows_NT" ] && cygpath -m .>/dev/null 2>/dev/null ; then
+    format=mixed
+  else
+    format=windows
+  fi
+  HAMMER_HOME=`cygpath --$format "$HAMMER_HOME"`
+  HAMMER_LIB=`cygpath --$format "$HAMMER_LIB"`
+  JAVA_HOME=`cygpath --$format "$JAVA_HOME"`
+  LCP_TEMP=`cygpath --path --unix "$LOCALCLASSPATH"`
+  if [ -n "$CLASSPATH" ] ; then
+    CP_TEMP=`cygpath --path --unix "$CLASSPATH"`
+    CLASSPATH=`cygpath --path --$format "$CP_TEMP"`
+  fi
+  CYGHOME=`cygpath --$format "$HOME"`
+
+  # add a second backslash to variables terminated by a backslash under cygwin
+  case "$HAMMER_HOME" in
+    *\\ )
+    HAMMER_HOME="$HAMMER_HOME\\"
+    ;;
+  esac
+  case "$CYGHOME" in
+    *\\ )
+    CYGHOME="$CYGHOME\\"
+    ;;
+  esac
+  case "$CLASSPATH" in
+    *\\ )
+    CLASSPATH="$CLASSPATH\\"
+    ;;
+  esac
+fi
+
+# Execute ant using eval/exec to preserve spaces in paths,
+# java options, and ant args
+cyg_home=
+if [ -n "$CYGHOME" ]; then
+  cyg_home="-Dcygwin.user.home=\"$CYGHOME\""
+fi
+
+hammer_command="exec \"$JAVACMD\" -classpath \"$CLASSPATH\" $JAVA_OPTS $cyg_home hammer.entry.HammerMain $@"
+
+#echo $hammer_command
+
+eval $hammer_command
