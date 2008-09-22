@@ -32,9 +32,9 @@ public final class PackageImpl implements Package, BuildConstants {
     private static final File SRC_JAR = new File(JARS_DIR, artifact("-src.jar"));
     private static final File DEMO_JAR = new File(JARS_DIR, artifact("-demo.jar"));
     private static final File SELF_JAR = new File(JARS_DIR, artifact("-self.jar"));
-    private static final File DIST_DIR = new File(ARTIFACTS_DIR, "dist");
-    private static final File ZIP = new File(DIST_DIR, artifact(".zip"));
-    private static final File TGZ = new File(DIST_DIR, artifact(".tar.gz"));
+    private static final File INSTALLS_DIR = new File(ARTIFACTS_DIR, "installs");
+    private static final File ZIP = new File(INSTALLS_DIR, artifact(".zip"));
+    private static final File TGZ = new File(INSTALLS_DIR, artifact(".tar.gz"));
     private static final File BOOTSTRAP_DIR = new File(BASE_DIR, "bootstrap");
     private static final File BOOTSTRAP_BIN_DIR = new File(BOOTSTRAP_DIR, "bin");
     private static final File BOOTSTRAP_LIB_DIR = new File(BOOTSTRAP_DIR, "lib");
@@ -65,7 +65,7 @@ public final class PackageImpl implements Package, BuildConstants {
 
     public void dist() {
         self.jars();
-        ant.mkDir(DIST_DIR);
+        ant.mkDir(INSTALLS_DIR);
         ant.zip(ZIP,
             binScript(BOOTSTRAP_BIN_DIR, "hammer"),
             distLibJar(JARS_DIR, CORE_JAR.getName()),

@@ -59,7 +59,6 @@ public final class DupeImpl implements Dupe, BuildConstants, Initialisable {
         simian.report(DUPE_RESULT, SIMIAN_XSL, DUPE_REPORT);
     }
 
-    // TODO Get this working!
     public boolean checkDupe() {
         me.run();
         me.reportDupe();

@@ -38,7 +38,7 @@ public final class ArtifactsImpl implements Artifacts, BuildConstants {
                 ),
                 filterSet(
                     filter("build.date", BUILD_DATE),
-                    filter("build.label", BUILD_LABEL),
+                    filter("build.version", VERSION),
                     filter("project.name", PROJECT_NAME)
                 )
             )

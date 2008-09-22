@@ -13,28 +13,29 @@ configuration. See below for Intellij config files.
 
 IntelliJ
 --------
-Intellij project files can be found in config/intellij. Copy them to the
+Intellij project files can be found in ./config/intellij. Copy them to the
 root directory and your're ready to go.
 
 Documentation
 -------------
-* Simple examples of use can be found in src/demo.
-* The Hammer build in src/self is the best place to go for more complex
+* See the Hammer wiki at http://www.assembla.com/wiki/show/build_hammer
+* Simple examples of use can be found in ./src/demo.
+* The Hammer build in ./src/self is the best place to go for more complex
 * examples.
-* See the Hammer wiki at http://www.assembla.com/wiki/show/hammer_build for more
-  info.
 
 Layout
 ------
 * All source files are split up into their components under the 'src' dir.
 * All generated files including class files go into the 'gen' directory.
   This directory is deleted by the 'clean' target.
-* The self contained zip and tar.gz distributions of hammer are built into the
-  'gen/artifacts/dist/' directory.
-* hammer.jar is the one you will need in your own projects if running hammer
-  in an embedded manner. It can be found with the other jars in the
-  'gen/artifacts/jars/' directory.
-* All Hammer dependent jars are located under the 'lib' directory.
+* Open ./gen/artifacts/index.html for an overview of the main project
+  reports and generated files.
+* All build reports can be found in the ./gen/artifacts/reports/ directory.
+* The self contained zip and tar.gz distributions of hammer are built into
+  the ./gen/artifacts/nstalls/ directory.
+* The individual jars including source can be found in the
+  ./gen/artifacts/jars/ directory.
+* All Hammer dependent jars are located under the ./lib/ directory.
   The quality related tols jars such as junit, jmock, simian jars are *not*
   required for running Hammer in your project unless your code depends on
   them.

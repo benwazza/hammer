@@ -32,7 +32,6 @@ public interface BuildConstants {
     String PROJECT_NAME = "Hammer";
     String ARTIFACTS_NAME = "hammer";
     String VERSION = "1.0-pre-beta";
-    String BUILD_LABEL = "alpha";
     String BUILD_DATE = new SimpleDateFormat("dd MMM, yyyy 'at' HH:mm").format(new Date());
 
     // directories and files
