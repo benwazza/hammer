@@ -16,10 +16,10 @@
 
 package hammer.self;
 
-import hammer.core.BuildComponent;
+import hammer.core.BuildTasks;
 import hammer.publish.Publish;
 
-public interface Dupe extends BuildComponent {
+public interface Dupe extends BuildTasks {
 
     @Publish("Run duplication checks.")
     void run();

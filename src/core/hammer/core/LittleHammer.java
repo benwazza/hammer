@@ -16,6 +16,26 @@
 
 package hammer.core;
 
-public interface Builder {
-    <T extends BuildTasks> void addTasks(Class<T> iface, T impl);
+import hammer.config.BuildConfigImpl;
+import hammer.ioc.Ioc;
+import hammer.ioc.IocBooter;
+import hammer.ioc.IocBooterImpl;
+
+public final class LittleHammer implements Hammer {
+    private final Hammer delegate;
+
+    public LittleHammer() {
+        IocBooter booter = new IocBooterImpl();
+        booter.wire(new BuildConfigImpl());
+        Ioc ioc = booter.getIoc();
+        delegate = ioc.resolve(Hammer.class);
+    }
+
+    public int hit(Build build, String... tasks) {
+        return delegate.hit(build, tasks);
+    }
+
+    public void publish(Build build) {
+        delegate.publish(build);
+    }
 }

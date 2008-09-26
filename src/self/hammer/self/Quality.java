@@ -16,9 +16,9 @@
 
 package hammer.self;
 
-import hammer.core.BuildComponent;
+import hammer.core.BuildTasks;
 
-public interface Quality extends BuildComponent {
+public interface Quality extends BuildTasks {
     void preCompile();
 
     void postCompile();

@@ -17,7 +17,7 @@
 package hammer.core;
 
 public interface TaskProxies {
-    <T extends BuildComponent> void proxy(Class<T> iface, T impl);
+    <T extends BuildTasks> void proxy(Class<T> iface, T impl);
 
     void runTasks(Build build, String... tasks);
 }

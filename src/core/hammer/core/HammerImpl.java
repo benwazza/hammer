@@ -31,10 +31,6 @@ public final class HammerImpl implements Hammer, Builder, Constants {
     Timer timer;
     Log log;
 
-    public <T extends BuildComponent> void add(Class<T> iface, T impl) {
-        proxies.proxy(iface, impl);
-    }
-
     public int hit(Build build, String... tasks) {
         build.addTasks(this);
         if (config.doPublish()) {
@@ -42,6 +38,10 @@ public final class HammerImpl implements Hammer, Builder, Constants {
             return OK;
         }
         return runTasks(build, tasks);
+    }
+
+    public <T extends BuildTasks> void addTasks(Class<T> iface, T impl) {
+        proxies.proxy(iface, impl);
     }
 
     public void publish(Build build) {

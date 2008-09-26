@@ -16,10 +16,10 @@
 
 package hammer.self;
 
-import hammer.core.BuildComponent;
+import hammer.core.BuildTasks;
 import hammer.publish.Publish;
 
-public interface Style extends BuildComponent {
+public interface Style extends BuildTasks {
 
     @Publish("Run code style checks.")
     void run();

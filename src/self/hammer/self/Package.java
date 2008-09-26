@@ -16,10 +16,10 @@
 
 package hammer.self;
 
-import hammer.core.BuildComponent;
+import hammer.core.BuildTasks;
 import hammer.publish.Publish;
 
-public interface Package extends BuildComponent {
+public interface Package extends BuildTasks {
 
     void jars();
 

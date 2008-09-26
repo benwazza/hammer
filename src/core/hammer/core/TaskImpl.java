@@ -23,14 +23,14 @@ import java.lang.reflect.Method;
 
 public final class TaskImpl implements Task {
     private static final Object[] NO_PARAMS = new Object[0];
-    private final BuildComponent proxy;
-    private final BuildComponent impl;
+    private final BuildTasks proxy;
+    private final BuildTasks impl;
     private final Method method;
     // TODO get rid of this
     MethodTestUtil methoder;
     Ioc ioc;
 
-    public TaskImpl(Method method, BuildComponent proxy, BuildComponent impl) {
+    public TaskImpl(Method method, BuildTasks proxy, BuildTasks impl) {
         validateMethod(method);
         this.method = method;
         this.proxy = proxy;
@@ -58,7 +58,7 @@ public final class TaskImpl implements Task {
 
     // TODO put annotations on the Impls 
     public boolean isPublished() {
-        return (method.isAnnotationPresent(Publish.class));
+        return isPublished(method);
     }
 
     public String getDescription() {
@@ -72,8 +72,12 @@ public final class TaskImpl implements Task {
     }
 
     private void validateMethod(Method method) {
-        if (method.getParameterTypes().length != 0)
+        if (method.getParameterTypes().length != 0 && isPublished(method))
             throw new IllegalTaskMethodException(method);
+    }
+
+    public boolean isPublished(Method method) {
+        return (method.isAnnotationPresent(Publish.class));
     }
 
     public String toString() {

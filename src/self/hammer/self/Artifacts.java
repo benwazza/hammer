@@ -16,8 +16,8 @@
 
 package hammer.self;
 
-import hammer.core.BuildComponent;
+import hammer.core.BuildTasks;
 
-public interface Artifacts extends BuildComponent {
+public interface Artifacts extends BuildTasks {
     void publish();
 }

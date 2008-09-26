@@ -39,18 +39,14 @@ public final class TaskHandlerImpl implements TaskHandler {
     }
 
     // FIX 2130 Evil.  If you're going to use "synchronized" at all ... do it in an aspect.
-    // This is an aspect :-)
+    // This is an aspect??
     public synchronized Object invoke(Method method, Object[] args) {
         String name = method.getName();
         if (!results.containsKey(name)) {
-            process(args, name);
+            Object result = invokeTask(args, name);
+            results.put(name, result);
         }
         return results.get(name);
-    }
-
-    private void process(Object[] args, String name) {
-        Object result = invokeTask(args, name);
-        results.put(name, result);
     }
 
     // FIX 2130 Split these out?

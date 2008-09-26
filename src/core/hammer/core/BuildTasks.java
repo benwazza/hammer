@@ -16,5 +16,5 @@
 
 package hammer.core;
 
-public interface BuildComponent {
+public interface BuildTasks {
 }

@@ -17,5 +17,5 @@
 package hammer.core;
 
 public interface Build {
-    void addTasks(Builder def);
+    void addTasks(Builder builder);
 }

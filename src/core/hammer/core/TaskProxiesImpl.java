@@ -28,19 +28,19 @@ public final class TaskProxiesImpl implements TaskProxies {
     TaskRegistry registry;
     Ioc ioc;
 
-    public <T extends BuildComponent> void proxy(Class<T> iface, T impl) {
+    public <T extends BuildTasks> void proxy(Class<T> iface, T impl) {
         TaskHandler handler = handler(impl);
-        BuildComponent proxy = layer(iface, handler);
+        BuildTasks proxy = layer(iface, handler);
         registry.register(iface, impl, iface.cast(proxy));
     }
 
-    private <T extends BuildComponent> T layer(Class<T> iface, TaskHandler handler) {
+    private <T extends BuildTasks> T layer(Class<T> iface, TaskHandler handler) {
         // TODO generisize layers
         Object proxy = layers.newProxy(iface, handler);
         return iface.cast(proxy);
     }
 
-    private <T extends BuildComponent> TaskHandler handler(T impl) {
+    private <T extends BuildTasks> TaskHandler handler(T impl) {
         TaskHandler handler = ioc.nu(TaskHandler.class, impl);
         handlers.add(handler);
         return handler;

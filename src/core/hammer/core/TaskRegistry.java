@@ -19,7 +19,7 @@ package hammer.core;
 import java.util.List;
 
 public interface TaskRegistry {
-    <T extends BuildComponent> void register(Class<T> iface, T impl, T proxy);
+    <T extends BuildTasks> void register(Class<T> iface, T impl, T proxy);
 
     void prepareTasks();
 

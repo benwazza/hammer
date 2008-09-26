@@ -16,9 +16,9 @@
 
 package hammer.self;
 
-import hammer.core.BuildComponent;
+import hammer.core.BuildTasks;
 
-public interface Compile extends BuildComponent {
+public interface Compile extends BuildTasks {
     void compile();
 
     void compileTest();

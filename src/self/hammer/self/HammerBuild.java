@@ -24,14 +24,14 @@ import hammer.core.Builder;
 public final class HammerBuild implements Build {
 
     public void addTasks(Builder builder) {
-        builder.add(Main.class, new MainImpl());
-        builder.add(Prepare.class, new PrepareImpl());
-        builder.add(Quality.class, new QualityImpl());
-        builder.add(Style.class, new StyleImpl());
-        builder.add(Dupe.class, new DupeImpl());
-        builder.add(Compile.class, new CompileImpl());
-        builder.add(Tests.class, new TestsImpl());
-        builder.add(Artifacts.class, new ArtifactsImpl());
-        builder.add(Package.class, new PackageImpl());
+        builder.addTasks(Main.class, new MainImpl());
+        builder.addTasks(Prepare.class, new PrepareImpl());
+        builder.addTasks(Quality.class, new QualityImpl());
+        builder.addTasks(Style.class, new StyleImpl());
+        builder.addTasks(Dupe.class, new DupeImpl());
+        builder.addTasks(Compile.class, new CompileImpl());
+        builder.addTasks(Tests.class, new TestsImpl());
+        builder.addTasks(Artifacts.class, new ArtifactsImpl());
+        builder.addTasks(Package.class, new PackageImpl());
     }
 }

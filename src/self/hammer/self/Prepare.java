@@ -16,10 +16,10 @@
 
 package hammer.self;
 
-import hammer.core.BuildComponent;
+import hammer.core.BuildTasks;
 import hammer.publish.Publish;
 
-public interface Prepare extends BuildComponent {
+public interface Prepare extends BuildTasks {
     @Publish("Delete all generated files.")
     void clean();
 }

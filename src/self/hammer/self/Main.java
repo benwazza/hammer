@@ -16,10 +16,10 @@
 
 package hammer.self;
 
-import hammer.core.BuildComponent;
+import hammer.core.BuildTasks;
 import hammer.publish.Publish;
 
-public interface Main extends BuildComponent {
+public interface Main extends BuildTasks {
 
     @Publish("Build everything!")
     void all();

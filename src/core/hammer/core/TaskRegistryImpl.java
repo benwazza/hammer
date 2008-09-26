@@ -30,7 +30,7 @@ public final class TaskRegistryImpl implements TaskRegistry {
     Ioc ioc;
     Log log;
 
-    public <T extends BuildComponent> void register(Class<T> iface, T impl, T proxy) {
+    public <T extends BuildTasks> void register(Class<T> iface, T impl, T proxy) {
         ioc.instance(iface, proxy);
         registerTasks(iface, proxy, impl);
     }
@@ -58,7 +58,7 @@ public final class TaskRegistryImpl implements TaskRegistry {
         return result;
     }
 
-    private <T extends BuildComponent> void registerTasks(Class<T> iface, T proxy, T impl) {
+    private <T extends BuildTasks> void registerTasks(Class<T> iface, T proxy, T impl) {
         Method[] methods = iface.getDeclaredMethods();
         for (Method method : methods) {
             Task task = ioc.nu(Task.class, method, proxy, impl);

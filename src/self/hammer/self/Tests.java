@@ -16,9 +16,9 @@
 
 package hammer.self;
 
-import hammer.core.BuildComponent;
+import hammer.core.BuildTasks;
 
-public interface Tests extends BuildComponent, BuildConstants {
+public interface Tests extends BuildTasks, BuildConstants {
     void runTests();
 
     void reportTests();

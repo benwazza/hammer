@@ -22,6 +22,6 @@ public final class IllegalTaskMethodException extends HammerException {
     private static final long serialVersionUID = -8857282955355478948L;
 
     public IllegalTaskMethodException(Method m) {
-        super("Build task methods cannot take parameters: " + m);
+        super("Published task methods cannot take parameters: " + m);
     }
 }
