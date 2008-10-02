@@ -17,11 +17,11 @@
 package hammer.ant.core;
 
 import au.net.netstorm.boost.spider.core.Nu;
+import hammer.ioc.Ioc;
 import org.apache.tools.ant.BuildLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.input.DefaultInputHandler;
 import org.apache.tools.ant.input.InputHandler;
-import hammer.ioc.Ioc;
 
 public final class AntBuilderCreatorImpl implements AntBuilderCreator {
     Ioc ioc;
