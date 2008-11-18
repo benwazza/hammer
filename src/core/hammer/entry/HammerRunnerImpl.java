@@ -55,7 +55,7 @@ public final class HammerRunnerImpl implements HammerRunner, Constants {
     // TODO Use in HammerImpl as well
     private int handleError(Exception e) {
         Throwable cleaned = e;
-        if (e instanceof au.net.netstorm.boost.spider.instantiate.InstantiationException)
+        if (e instanceof InstantiationException)
             cleaned = e.getCause();
         status.logException(log, cleaned);
         return FAILURE;

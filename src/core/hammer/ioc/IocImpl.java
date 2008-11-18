@@ -16,20 +16,15 @@
 
 package hammer.ioc;
 
-import au.net.netstorm.boost.gunge.impl.DefaultImplMapper;
-import au.net.netstorm.boost.gunge.impl.ImplMapper;
-import au.net.netstorm.boost.gunge.impl.ImplMaster;
-import au.net.netstorm.boost.nursery.gunge.impl.DefaultImplMaster;
-import au.net.netstorm.boost.spider.builder.DefaultSpiderBuilder;
-import au.net.netstorm.boost.spider.builder.SpiderBuilder;
-import au.net.netstorm.boost.spider.core.Spider;
-import au.net.netstorm.boost.spider.registry.Registry;
+import au.net.netstorm.boost.spider.api.builder.Egg;
+import au.net.netstorm.boost.spider.api.builder.DefaultEgg;
+import au.net.netstorm.boost.spider.api.runtime.Spider;
+import au.net.netstorm.boost.spider.api.legacy.Registry;
+import au.net.netstorm.boost.spider.ioc.BoostWeb;
 
 public final class IocImpl implements Ioc {
-    private final ImplMapper[] mappers = implMappers();
-    private final ImplMaster implMaster = new DefaultImplMaster(mappers);
-    private final SpiderBuilder spiderBuilder = new DefaultSpiderBuilder();
-    private final Spider spider = spiderBuilder.build(implMaster);
+    private final Egg egg = new DefaultEgg();
+    private final Spider spider = egg.hatch(BoostWeb.class, HammerWeb.class);
     private final Registry registry = spider.resolve(Registry.class);
 
     public IocImpl() {
@@ -62,11 +57,5 @@ public final class IocImpl implements Ioc {
 
     public <T> T resolve(Class<T> type) {
         return spider.resolve(type);
-    }
-
-    private ImplMapper[] implMappers() {
-        ImplMapper defaultMapper = new DefaultImplMapper("Default");
-        ImplMapper implMapper = new ImplImplMapper();
-        return new ImplMapper[]{defaultMapper, implMapper};
     }
 }

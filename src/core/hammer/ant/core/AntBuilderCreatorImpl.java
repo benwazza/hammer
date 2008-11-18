@@ -16,7 +16,7 @@
 
 package hammer.ant.core;
 
-import au.net.netstorm.boost.spider.core.Nu;
+import au.net.netstorm.boost.spider.api.runtime.Nu;
 import hammer.ioc.Ioc;
 import org.apache.tools.ant.BuildLogger;
 import org.apache.tools.ant.Project;

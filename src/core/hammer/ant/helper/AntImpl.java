@@ -16,7 +16,7 @@
 
 package hammer.ant.helper;
 
-import au.net.netstorm.boost.spider.core.Constructable;
+import au.net.netstorm.boost.spider.api.lifecycle.Constructable;
 import hammer.ant.core.AntBuilder;
 import hammer.ant.core.AntBuilderCreator;
 import static hammer.ant.core.AntXml.a;
