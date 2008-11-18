@@ -16,5 +16,6 @@
 
 package hammer.core;
 
+// FIX Is this necessary?
 public interface BuildTasks {
 }
