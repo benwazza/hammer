@@ -18,7 +18,7 @@ root directory and your're ready to go.
 
 Documentation
 -------------
-* See the Hammer wiki at http://www.assembla.com/wiki/show/build_hammer
+* See the Hammer wiki at http://wiki.github.com/benwazza/hammer
 * Simple examples of use can be found in ./src/demo.
 * The Hammer build in ./src/self is the best place to go for more complex
 * examples.
