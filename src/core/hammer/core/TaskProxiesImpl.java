@@ -75,7 +75,7 @@ public final class TaskProxiesImpl implements TaskProxies {
     }
 
     private void invokeTask(String name) {
-        // TODO handle circles
+        // TODO handle cycles
         Task task = registry.getTask(name);
         task.invoke();
     }

@@ -58,6 +58,7 @@ public final class HammerImpl implements Hammer, Builder, Constants {
         return OK;
     }
 
+    // FIX Layer here`
     private Exception runSafe(Build build, String... tasks) {
         try {
             timer.start();
