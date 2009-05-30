@@ -25,8 +25,8 @@ public final class LittleHammer implements Hammer {
     private final Hammer delegate;
 
     public LittleHammer() {
-        IocBooter booter = new IocBooterImpl();
-        booter.wire(new BuildConfigImpl());
+        BuildConfigImpl config = new BuildConfigImpl();
+        IocBooter booter = new IocBooterImpl(config);
         Ioc ioc = booter.getIoc();
         delegate = ioc.resolve(Hammer.class);
     }

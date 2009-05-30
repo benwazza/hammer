@@ -15,19 +15,19 @@
  */
 package hammer.core;
 
-import au.net.netstorm.boost.sniper.reflect.util.MethodTestUtil;
 import hammer.ioc.Ioc;
 import hammer.publish.Publish;
 
 import java.lang.reflect.Method;
+
+import au.net.netstorm.boost.gunge.reflect.invoke.MethodInvoker;
 
 public final class TaskImpl implements Task {
     private static final Object[] NO_PARAMS = new Object[0];
     private final BuildTasks proxy;
     private final BuildTasks impl;
     private final Method method;
-    // TODO get rid of this
-    MethodTestUtil methoder;
+    MethodInvoker methoder;
     Ioc ioc;
 
     public TaskImpl(Method method, BuildTasks proxy, BuildTasks impl) {
@@ -68,7 +68,7 @@ public final class TaskImpl implements Task {
     }
 
     public void invoke() {
-        methoder.invoke(proxy, shortName(), NO_PARAMS);
+        methoder.instance(proxy, shortName(), NO_PARAMS);
     }
 
     private void validateMethod(Method method) {

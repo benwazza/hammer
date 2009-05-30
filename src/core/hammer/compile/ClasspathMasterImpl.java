@@ -16,28 +16,27 @@
 
 package hammer.compile;
 
-import au.net.netstorm.boost.sledge.java.lang.EdgeClass;
-import au.net.netstorm.boost.sledge.java.lang.reflect.EdgeMethod;
-
 import java.io.File;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import hammer.util.Reflection;
+
 public final class ClasspathMasterImpl implements ClasspathMaster {
     private final URLClassLoader sysLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-    EdgeMethod methods;
-    EdgeClass classes;
+    Reflection reflection;
 
     public void extend(String classpath) {
-        Method addUrl = method("addURL");
         URL[] urls = toUrls(classpath);
         for (URL url : urls) {
-            methods.invoke(addUrl, sysLoader, url);
+            reflection.invokeDeclared(URLClassLoader.class, sysLoader,"addURL", url);
         }
     }
 
+
+
+    // TODO move out to converter
     private URL[] toUrls(String classpath) {
         String[] elems = classpath.split(File.pathSeparator);
         URL[] urls = new URL[elems.length];
@@ -59,11 +58,5 @@ public final class ClasspathMasterImpl implements ClasspathMaster {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private Method method(String name) {
-        Method addUrl = classes.getDeclaredMethod(URLClassLoader.class, name, URL.class);
-        addUrl.setAccessible(true);
-        return addUrl;
     }
 }

@@ -17,15 +17,15 @@
 package hammer.ioc;
 
 import au.net.netstorm.boost.spider.api.builder.Egg;
-import au.net.netstorm.boost.spider.api.builder.DefaultEgg;
+import au.net.netstorm.boost.spider.api.builder.SpiderEgg;
 import au.net.netstorm.boost.spider.api.runtime.Spider;
-import au.net.netstorm.boost.spider.api.legacy.Registry;
+import au.net.netstorm.boost.spider.api.config.wire.Wire;
 import au.net.netstorm.boost.spider.ioc.BoostWeb;
 
 public final class IocImpl implements Ioc {
-    private final Egg egg = new DefaultEgg();
-    private final Spider spider = egg.hatch(BoostWeb.class, HammerWeb.class);
-    private final Registry registry = spider.resolve(Registry.class);
+    private final Egg egg = new SpiderEgg(BoostWeb.class, HammerWeb.class);
+    private final Spider spider = egg.hatch();
+    private final Wire wire = spider.resolve(Wire.class);
 
     public IocImpl() {
         instance(Ioc.class, this);
@@ -39,20 +39,16 @@ public final class IocImpl implements Ioc {
         return spider.nu(impl, params);
     }
 
-    public <T, U extends T> void instance(Class<T> iface, U ref) {
-        registry.instance(iface, ref);
-    }
-
-    public <T, U extends T> void instance(Class<?> host, Class<T> iface, U ref) {
-        registry.instance(host, iface, ref);
+    public <T, U extends T> void instance(Class<T> iface, U impl) {
+        wire.ref(impl).to(iface);
     }
 
     public <T> void single(Class<T> iface, Class<? extends T> impl) {
-        registry.single(iface, impl);
+        wire.cls(impl).one().to(iface);
     }
 
     public <T> void multiple(Class<T> iface, Class<? extends T> impl) {
-        registry.multiple(iface, impl);
+        wire.cls(impl).to(iface);
     }
 
     public <T> T resolve(Class<T> type) {

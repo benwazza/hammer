@@ -16,7 +16,6 @@
 
 package hammer.entry;
 
-import au.net.netstorm.boost.sledge.java.lang.EdgeClass;
 import hammer.compile.ClasspathMaster;
 import hammer.compile.MemoryFileManager;
 import hammer.compile.HammerClassLoader;
@@ -28,6 +27,8 @@ import hammer.util.CompileProperties;
 import hammer.util.FileFinder;
 
 import java.io.File;
+
+import au.net.netstorm.boost.gunge.sledge.java.lang.EdgeClass;
 
 public final class BuildWhispererImpl implements BuildWhisperer, Constants {
     HammerCompiler compiler;
@@ -63,7 +64,7 @@ public final class BuildWhispererImpl implements BuildWhisperer, Constants {
         return compiler.compile(javaFiles, classpath, loader);
     }
 
-    // TODO add to EdgeClass
+    // TODO add methods that takes a classloader to EdgeClass
     private Class<?> forName(String name, ClassLoader loader) {
         try {
             return Class.forName(name, true, loader);

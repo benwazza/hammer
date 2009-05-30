@@ -14,8 +14,20 @@
  * limitations under the License.
  */
 
-package hammer.ioc;
+package hammer.util;
 
-public interface IocBooter {
-    Ioc getIoc();
+import java.lang.reflect.Method;
+
+public interface Reflection {
+    Object invokeDeclared(Class definer, Object subject, String method, Object... params);
+
+    Method declaredMethod(Class subject, String method, Object... params);
+
+    Object invoke(Object subject, Method m, Object... params);
+
+    Object invoke(Object subject, String method, Object... params);
+
+    Method method(Object subject, String method, Object... params);
+
+    Method method(Class subject, String method, Object... params);
 }

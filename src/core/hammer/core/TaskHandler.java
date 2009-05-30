@@ -16,7 +16,7 @@
 
 package hammer.core;
 
-import au.net.netstorm.boost.spider.api.aspects.Layer;
+import au.net.netstorm.boost.gunge.layer.Layer;
 
 public interface TaskHandler extends Layer {
     void resetInvocationState();

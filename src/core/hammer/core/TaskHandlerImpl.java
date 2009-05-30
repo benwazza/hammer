@@ -16,9 +16,9 @@
 package hammer.core;
 
 import au.net.netstorm.boost.bullet.log.Log;
-import au.net.netstorm.boost.sledge.java.lang.reflect.Method;
-import au.net.netstorm.boost.sniper.reflect.util.MethodTestUtil;
+import au.net.netstorm.boost.gunge.layer.Method;
 import hammer.log.LogIndenter;
+import hammer.util.Reflection;
 import hammer.util.Timer;
 
 import java.util.HashMap;
@@ -28,8 +28,7 @@ public final class TaskHandlerImpl implements TaskHandler {
     // FIX 2130 Injection framework with new spider will do the assignment.
     private final Map<String, Object> results = new HashMap<String, Object>();
     private final Object real;
-    // TODO get rid of this
-    MethodTestUtil methoder;
+    Reflection reflection;
     LogIndenter indenter;
     Timer timer;
     Log log;
@@ -64,7 +63,7 @@ public final class TaskHandlerImpl implements TaskHandler {
 
     private Object invokeAndRecord(Object[] args, String name) {
         timer.start();
-        Object result = methoder.invoke(real, name, args);
+        Object result = reflection.invoke(real, name, args);
         timer.stop();
         return result;
     }

@@ -16,33 +16,27 @@
 package hammer.ioc;
 
 import au.net.netstorm.boost.spider.api.config.web.Web;
-import au.net.netstorm.boost.spider.api.config.bindings.Binder;
+import au.net.netstorm.boost.spider.api.config.mapping.Mapper;
+import au.net.netstorm.boost.spider.api.config.wire.Wire;
 import au.net.netstorm.boost.spider.api.runtime.Resolver;
-import au.net.netstorm.boost.spider.guts.factory.supplied.Mappings;
-import au.net.netstorm.boost.spider.guts.factory.supplied.SuffixMapping;
 import hammer.compile.ClasspathMaster;
-import hammer.compile.HammerClassLoaderImpl;
 import hammer.compile.HammerClassLoader;
 
 public final class HammerWeb implements Web {
-    Mappings mappings;
+    Mapper mapper;
     Resolver resolver;
-    Binder binder;
+    Wire binder;
+    // FIX Need to make this configurable
+    String scope = "hammer";
 
     public void web() {
-        mappings();
+        mapper.suffix("Impl");
         bootstrap();
     }
 
     private void bootstrap() {
         // FIX Find a better pattern to handle inheritance cases.
         ClasspathMaster master = resolver.resolve(ClasspathMaster.class);
-        HammerClassLoaderImpl loader = new HammerClassLoaderImpl(master);
-        binder.bind(HammerClassLoader.class).to(loader);
-    }
-
-    private void mappings() {
-        SuffixMapping impl = new SuffixMapping("Impl");
-        mappings.add(impl);
+        binder.nu(HammerClassLoader.class, master).to(HammerClassLoader.class);
     }
 }

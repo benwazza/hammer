@@ -21,16 +21,17 @@ import au.net.netstorm.boost.bullet.log.Log;
 import au.net.netstorm.boost.bullet.log.LogEngine;
 import hammer.config.BuildConfig;
 import hammer.log.BuildLogEngine;
-import hammer.util.Timer;
-import hammer.util.TimerImpl;
+import hammer.core.TaskRegistry;
+import hammer.core.TaskRegistryImpl;
 
 public final class IocBooterImpl implements IocBooter {
     private final Ioc ioc = new IocImpl();
 
-    public void wire(BuildConfig config) {
+
+    public IocBooterImpl(BuildConfig config) {
         ioc.instance(BuildConfig.class, config);
         setupLogging(ioc);
-        setupMultiples(ioc);
+        setupSingles(ioc);
     }
 
     public Ioc getIoc() {
@@ -39,15 +40,15 @@ public final class IocBooterImpl implements IocBooter {
 
     private void setupLogging(Ioc ioc) {
         ioc.single(LogEngine.class, BuildLogEngine.class);
-        LogEngine engine = ioc.resolve(LogEngine.class);
-        ioc.instance(Log.class, new DelegatingLog(engine));
+        ioc.single(Log.class, DelegatingLog.class);
     }
 
-    private void setupMultiples(Ioc ioc) {
-        ioc.multiple(Timer.class, TimerImpl.class);
+    private void setupSingles(Ioc ioc) {
+        //ioc.multiple(Timer.class, TimerImpl.class);
         // TODO Make the TaskRegistry immutable.
-//        ioc.multiple(TaskRegistry.class, TaskRegistryImpl.class);
-//        TaskRegistry registry = ioc.resolve(TaskRegistry.class);
+        ioc.single(TaskRegistry.class, TaskRegistryImpl.class);
+
+        //TaskRegistry registry = ioc.resolve(TaskRegistry.class);
 //        ioc.instance(TaskProxiesImpl.class, TaskRegistry.class, registry);
 //        ioc.instance(Hammer.class, TaskRegistry.class, registry);
 

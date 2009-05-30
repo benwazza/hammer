@@ -16,6 +16,7 @@
 package hammer.core;
 
 import au.net.netstorm.boost.gunge.proxy.LayerFactory;
+import au.net.netstorm.boost.gunge.type.Interface;
 import hammer.ioc.Ioc;
 
 import java.util.ArrayList;
@@ -36,7 +37,8 @@ public final class TaskProxiesImpl implements TaskProxies {
 
     private <T extends BuildTasks> T layer(Class<T> iface, TaskHandler handler) {
         // TODO generisize layers
-        Object proxy = layers.newProxy(iface, handler);
+        Interface anInterface = ioc.nu(Interface.class, iface);
+        Object proxy = layers.newProxy(anInterface, handler);
         return iface.cast(proxy);
     }
 

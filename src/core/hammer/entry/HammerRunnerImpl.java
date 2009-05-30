@@ -32,8 +32,7 @@ public final class HammerRunnerImpl implements HammerRunner, Constants {
     Log log;
 
     public HammerRunnerImpl(BuildConfig config) {
-        IocBooter booter = new IocBooterImpl();
-        booter.wire(config);
+        IocBooter booter = new IocBooterImpl(config);
         ioc = booter.getIoc();
         ioc.inject(this);
     }
