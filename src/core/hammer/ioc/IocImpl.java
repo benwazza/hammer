@@ -18,17 +18,20 @@ package hammer.ioc;
 
 import au.net.netstorm.boost.spider.api.builder.Egg;
 import au.net.netstorm.boost.spider.api.builder.SpiderEgg;
-import au.net.netstorm.boost.spider.api.runtime.Spider;
 import au.net.netstorm.boost.spider.api.config.wire.Wire;
+import au.net.netstorm.boost.spider.api.runtime.Spider;
 import au.net.netstorm.boost.spider.ioc.BoostWeb;
+import hammer.config.BuildConfig;
 
 public final class IocImpl implements Ioc {
+
     private final Egg egg = new SpiderEgg(BoostWeb.class, HammerWeb.class);
     private final Spider spider = egg.hatch();
     private final Wire wire = spider.resolve(Wire.class);
 
-    public IocImpl() {
+    public IocImpl(BuildConfig config) {
         instance(Ioc.class, this);
+        instance(BuildConfig.class, config);
     }
 
     public void inject(Object ref) {

@@ -15,28 +15,33 @@
  */
 package hammer.ioc;
 
-import au.net.netstorm.boost.spider.api.config.web.Web;
+import au.net.netstorm.boost.bullet.log.DelegatingLog;
+import au.net.netstorm.boost.bullet.log.Log;
+import au.net.netstorm.boost.bullet.log.LogEngine;
 import au.net.netstorm.boost.spider.api.config.mapping.Mapper;
+import au.net.netstorm.boost.spider.api.config.web.Web;
 import au.net.netstorm.boost.spider.api.config.wire.Wire;
 import au.net.netstorm.boost.spider.api.runtime.Resolver;
-import hammer.compile.ClasspathMaster;
-import hammer.compile.HammerClassLoader;
+import hammer.log.BuildLogEngine;
+import hammer.log.LogIndenter;
+import hammer.log.LogIndenterImpl;
 
 public final class HammerWeb implements Web {
     Mapper mapper;
     Resolver resolver;
-    Wire binder;
+    Wire wire;
     // FIX Need to make this configurable
     String scope = "hammer";
 
     public void web() {
         mapper.suffix("Impl");
-        bootstrap();
+        logging();
     }
 
-    private void bootstrap() {
-        // FIX Find a better pattern to handle inheritance cases.
-        ClasspathMaster master = resolver.resolve(ClasspathMaster.class);
-        binder.nu(HammerClassLoader.class, master).to(HammerClassLoader.class);
+    private void logging() {
+        wire.cls(BuildLogEngine.class).one().to(LogEngine.class);
+        wire.cls(DelegatingLog.class).to(Log.class);
+        // Singleton for indentation tracking
+        wire.cls(LogIndenterImpl.class).one().to(LogIndenter.class);
     }
 }

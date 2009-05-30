@@ -18,12 +18,12 @@ package hammer.ant.core;
 
 import au.net.netstorm.boost.bullet.log.Log;
 import au.net.netstorm.boost.gunge.exception.ThrowableMaster;
-import org.apache.tools.ant.BuildEvent;
-import org.apache.tools.ant.BuildLogger;
-import org.apache.tools.ant.Task;
 import hammer.config.BuildConfig;
 import hammer.core.Constants;
 import hammer.log.LogIndenter;
+import org.apache.tools.ant.BuildEvent;
+import org.apache.tools.ant.BuildLogger;
+import org.apache.tools.ant.Task;
 
 import java.io.BufferedReader;
 import java.io.IOException;

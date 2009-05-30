@@ -16,12 +16,7 @@
 package hammer.compile;
 
 public final class HammerClassLoaderImpl extends ClassLoader implements HammerClassLoader {
-    private final ClasspathMaster pathMaster;
     private MemoryFileManager manager;
-
-    public HammerClassLoaderImpl(ClasspathMaster master) {
-        pathMaster = master;
-    }
 
     public Class<?> findClass(String name) throws ClassNotFoundException {
         if (manager == null || !manager.can(name)) return super.findClass(name);

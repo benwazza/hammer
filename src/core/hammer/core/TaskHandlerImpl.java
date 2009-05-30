@@ -37,8 +37,6 @@ public final class TaskHandlerImpl implements TaskHandler {
         this.real = real;
     }
 
-    // FIX 2130 Evil.  If you're going to use "synchronized" at all ... do it in an aspect.
-    // This is an aspect??
     public synchronized Object invoke(Method method, Object[] args) {
         String name = method.getName();
         if (!results.containsKey(name)) {

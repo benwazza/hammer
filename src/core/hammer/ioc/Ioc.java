@@ -16,8 +16,8 @@
 
 package hammer.ioc;
 
-import au.net.netstorm.boost.spider.api.runtime.Nu;
 import au.net.netstorm.boost.spider.api.runtime.Injector;
+import au.net.netstorm.boost.spider.api.runtime.Nu;
 import au.net.netstorm.boost.spider.api.runtime.Resolver;
 
 public interface Ioc extends Nu, Injector, Resolver, Registry {

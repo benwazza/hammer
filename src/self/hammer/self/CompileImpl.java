@@ -27,7 +27,7 @@ import java.io.File;
 
 public final class CompileImpl implements Compile, BuildConstants {
     private static final Attribute[] JAVAC_ATTRS = new Attribute[]{
-        a("debug", "on")
+        a("debug", "on"),
     };
 
     Prepare prepare;
@@ -72,8 +72,8 @@ public final class CompileImpl implements Compile, BuildConstants {
     private Element[] javacElems(Element classpath) {
         return new Element[]{
             classpath,
-            e("compilerarg", a("value", "-Xlint:-path"))
-//            e("compilerarg", a("value", "-Xlint")),
+            e("compilerarg", a("value", "-Xlint:-path")),
+            e("compilerarg", a("value", "-Xlint")),
         };
     }
 }

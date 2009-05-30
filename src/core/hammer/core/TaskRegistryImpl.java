@@ -17,8 +17,8 @@
 package hammer.core;
 
 import au.net.netstorm.boost.bullet.log.Log;
-import hammer.ioc.Ioc;
 import hammer.config.BuildConfig;
+import hammer.ioc.Ioc;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

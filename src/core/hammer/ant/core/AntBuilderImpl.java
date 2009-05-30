@@ -16,6 +16,8 @@
 
 package hammer.ant.core;
 
+import hammer.xml.Attribute;
+import hammer.xml.Element;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Target;
@@ -27,8 +29,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.AttributesImpl;
-import hammer.xml.Attribute;
-import hammer.xml.Element;
 
 import java.util.HashMap;
 import java.util.List;

@@ -21,8 +21,7 @@ import hammer.core.Build;
 import hammer.core.Constants;
 import hammer.core.Hammer;
 import hammer.ioc.Ioc;
-import hammer.ioc.IocBooter;
-import hammer.ioc.IocBooterImpl;
+import hammer.ioc.IocImpl;
 import hammer.log.BuildStatusLogger;
 
 public final class HammerRunnerImpl implements HammerRunner, Constants {
@@ -32,8 +31,7 @@ public final class HammerRunnerImpl implements HammerRunner, Constants {
     Log log;
 
     public HammerRunnerImpl(BuildConfig config) {
-        IocBooter booter = new IocBooterImpl(config);
-        ioc = booter.getIoc();
+        ioc = new IocImpl(config);
         ioc.inject(this);
     }
 

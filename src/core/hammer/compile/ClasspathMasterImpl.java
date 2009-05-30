@@ -16,12 +16,12 @@
 
 package hammer.compile;
 
+import hammer.util.Reflection;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-
-import hammer.util.Reflection;
 
 public final class ClasspathMasterImpl implements ClasspathMaster {
     private final URLClassLoader sysLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();

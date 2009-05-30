@@ -18,16 +18,14 @@ package hammer.core;
 
 import hammer.config.BuildConfigImpl;
 import hammer.ioc.Ioc;
-import hammer.ioc.IocBooter;
-import hammer.ioc.IocBooterImpl;
+import hammer.ioc.IocImpl;
 
 public final class LittleHammer implements Hammer {
     private final Hammer delegate;
 
     public LittleHammer() {
         BuildConfigImpl config = new BuildConfigImpl();
-        IocBooter booter = new IocBooterImpl(config);
-        Ioc ioc = booter.getIoc();
+        Ioc ioc = new IocImpl(config);
         delegate = ioc.resolve(Hammer.class);
     }
 

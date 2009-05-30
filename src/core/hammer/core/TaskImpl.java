@@ -15,12 +15,11 @@
  */
 package hammer.core;
 
+import au.net.netstorm.boost.gunge.reflect.invoke.MethodInvoker;
 import hammer.ioc.Ioc;
 import hammer.publish.Publish;
 
 import java.lang.reflect.Method;
-
-import au.net.netstorm.boost.gunge.reflect.invoke.MethodInvoker;
 
 public final class TaskImpl implements Task {
     private static final Object[] NO_PARAMS = new Object[0];

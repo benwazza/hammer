@@ -16,10 +16,11 @@
 
 package hammer.entry;
 
+import au.net.netstorm.boost.gunge.sledge.java.lang.EdgeClass;
 import hammer.compile.ClasspathMaster;
-import hammer.compile.MemoryFileManager;
 import hammer.compile.HammerClassLoader;
 import hammer.compile.HammerCompiler;
+import hammer.compile.MemoryFileManager;
 import hammer.core.Build;
 import hammer.core.Constants;
 import hammer.ioc.Ioc;
@@ -27,8 +28,6 @@ import hammer.util.CompileProperties;
 import hammer.util.FileFinder;
 
 import java.io.File;
-
-import au.net.netstorm.boost.gunge.sledge.java.lang.EdgeClass;
 
 public final class BuildWhispererImpl implements BuildWhisperer, Constants {
     HammerCompiler compiler;

@@ -19,11 +19,11 @@ package hammer.demo;
 import static hammer.ant.core.AntXml.a;
 import static hammer.ant.core.AntXml.e;
 import hammer.ant.helper.Ant;
-import hammer.core.LittleHammer;
 import hammer.core.Build;
 import hammer.core.BuildTasks;
 import hammer.core.Builder;
 import hammer.core.Hammer;
+import hammer.core.LittleHammer;
 
 public final class AntDemoImpl implements AntDemo {
 
