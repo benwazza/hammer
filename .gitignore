@@ -1,3 +1,5 @@
 hammer.ipr
 hammer.iws
 hammer.iml
+gen/
+ibuild/
