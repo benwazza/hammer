@@ -24,7 +24,6 @@ import au.net.netstorm.boost.spider.ioc.BoostWeb;
 import hammer.config.BuildConfig;
 
 public final class IocImpl implements Ioc {
-
     private final Egg egg = new SpiderEgg(BoostWeb.class, HammerWeb.class);
     private final Spider spider = egg.hatch();
     private final Wire wire = spider.resolve(Wire.class);
