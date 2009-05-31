@@ -16,6 +16,6 @@
 
 package hammer.util;
 
-public interface CompileProperties {
+public interface PropertiesFile {
     String getProperty(String name);
 }

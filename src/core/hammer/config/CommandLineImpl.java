@@ -47,7 +47,6 @@ public final class CommandLineImpl implements Constants, CommandLine {
     // } OK NCSS
 
     // OK GenericIllegalRegexp {
-
     private void help() {
         System.out.println("");
         System.out.println("Hammer usage: hammer [-h] | [-p] | [-t] | task1 task2 ...");

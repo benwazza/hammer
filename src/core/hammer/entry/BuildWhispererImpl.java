@@ -24,8 +24,8 @@ import hammer.compile.MemoryFileManager;
 import hammer.core.Build;
 import hammer.core.Constants;
 import hammer.ioc.Ioc;
-import hammer.util.CompileProperties;
 import hammer.util.FileFinder;
+import hammer.util.PropertiesFile;
 
 import java.io.File;
 
@@ -38,25 +38,25 @@ public final class BuildWhispererImpl implements BuildWhisperer, Constants {
     Ioc ioc;
 
     public Build createBuild() {
-        CompileProperties props = ioc.nu(CompileProperties.class, PROPERTIES_FILENAME);
+        PropertiesFile props = ioc.nu(PropertiesFile.class, PROPERTIES_FILENAME);
         prepareLoader(props);
         return instatiateBuild(props);
     }
 
-    private Build instatiateBuild(CompileProperties props) {
+    private Build instatiateBuild(PropertiesFile props) {
         String buildClassName = props.getProperty("build.class");
         Class<?> buildClass = forName(buildClassName, (ClassLoader) loader);
         return (Build) classer.newInstance(buildClass);
     }
 
-    private void prepareLoader(CompileProperties props) {
+    private void prepareLoader(PropertiesFile props) {
         String classpath = props.getProperty("build.classpath");
         MemoryFileManager fileManager = compileBuild(props, classpath);
         classpather.extend(classpath);
         loader.setManager(fileManager);
     }
 
-    private MemoryFileManager compileBuild(CompileProperties props, String classpath) {
+    private MemoryFileManager compileBuild(PropertiesFile props, String classpath) {
         String src = props.getProperty("build.src.dir");
         File srcDir = new File(src);
         File[] javaFiles = fileFinder.findFiles(srcDir, ".java");

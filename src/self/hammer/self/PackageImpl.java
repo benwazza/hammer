@@ -42,11 +42,11 @@ public final class PackageImpl implements Package, BuildConstants {
     private static final File BOOST_JAR = new File(BOOST_DIR, "boost.jar");
     private static final Element MANIFEST =
         e("manifest",
-            manifestAttr("Built-By", "leapstream.com.au"),
+            manifestAttr("Built-By", "agilemethods.com.au"),
             e("section", a("name", "common"),
                 manifestAttr("Implementation-Title", PROJECT_NAME),
                 manifestAttr("Implementation-Version", VERSION),
-                manifestAttr("Implementation-Vendor", "leapstream.com.au")
+                manifestAttr("Implementation-Vendor", "agilemethods.com.au")
             )
         );
 

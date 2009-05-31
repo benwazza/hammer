@@ -63,7 +63,6 @@ public final class BuildPublisherImpl implements BuildPublisher, Constants {
     }
 
     // OK GenericIllegalRegexp {
-
     private void logDetails(String projectName, List<Task> tasks, List<StringBuffer> names) {
         System.out.println("");
         System.out.println("Published tasks for the '" + projectName + "' project:");

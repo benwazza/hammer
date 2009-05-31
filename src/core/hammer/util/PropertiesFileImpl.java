@@ -16,16 +16,24 @@
 
 package hammer.util;
 
+import au.net.netstorm.boost.spider.api.lifecycle.Constructable;
+import edge.java.io.FileReader;
+import edge.java.util.Properties;
 import hammer.config.BuildConfigException;
+import hammer.ioc.Ioc;
 
 import java.io.File;
-import java.io.FileReader;
-import java.util.Properties;
 
-public final class CompilePropertiesImpl implements CompileProperties {
-    private final Properties props;
+public final class PropertiesFileImpl implements PropertiesFile, Constructable {
+    private Properties props;
+    private String filename;
+    Ioc ioc;
 
-    public CompilePropertiesImpl(String filename) {
+    public PropertiesFileImpl(String filename) {
+        this.filename = filename;
+    }
+
+    public void constructor() {
         props = props(filename);
     }
 
@@ -37,15 +45,10 @@ public final class CompilePropertiesImpl implements CompileProperties {
 
     private Properties props(String filename) {
         File file = safeGetFile(filename);
-        // TODO edge
-        try {
-            FileReader fileReader = new FileReader(file);
-            Properties props = new Properties(System.getProperties());
-            props.load(fileReader);
-            return props;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        FileReader fileReader = ioc.nu(FileReader.class, file);
+        Properties props = ioc.nu(Properties.class, System.getProperties());
+        props.load(fileReader);
+        return props;
     }
 
     private File safeGetFile(String filename) {

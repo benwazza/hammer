@@ -30,13 +30,13 @@ public final class BuildLogEngine implements LogEngine {
     public void log(LogLevel level, Object o) {
         // SUGGEST Use commons logging
         if (!config.levelEnabled(level)) return;
-        // DEBT GenericIllegalRegexp {
+        // OK GenericIllegalRegexp {
         if (level == LogLevel.ERROR) {
             println(o, System.err);
         } else {
             println(o, System.out);
         }
-        // } DEBT GenericIllegalRegexp
+        // } OK GenericIllegalRegexp
     }
 
     public void log(LogLevel level, Throwable t) {

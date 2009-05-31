@@ -16,16 +16,17 @@
 
 package hammer.compile;
 
+import edge.java.io.File;
+import hammer.ioc.Ioc;
 import hammer.util.Reflection;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
 public final class ClasspathMasterImpl implements ClasspathMaster {
     private final URLClassLoader sysLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
     Reflection reflection;
+    Ioc ioc;
 
     public void extend(String classpath) {
         URL[] urls = toUrls(classpath);
@@ -34,11 +35,9 @@ public final class ClasspathMasterImpl implements ClasspathMaster {
         }
     }
 
-
-
     // TODO move out to converter
     private URL[] toUrls(String classpath) {
-        String[] elems = classpath.split(File.pathSeparator);
+        String[] elems = classpath.split(java.io.File.pathSeparator);
         URL[] urls = new URL[elems.length];
         convert(elems, urls);
         return urls;
@@ -46,17 +45,8 @@ public final class ClasspathMasterImpl implements ClasspathMaster {
 
     private void convert(String[] elems, URL[] urls) {
         for (int i = 0; i < elems.length; i++) {
-            File file = new File(elems[i]);
-            url(urls, i, file);
-        }
-    }
-
-    // TODO Edge
-    private void url(URL[] urls, int i, File file) {
-        try {
+            File file = ioc.nu(File.class, elems[i]);
             urls[i] = file.toURI().toURL();
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
         }
     }
 }

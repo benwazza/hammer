@@ -22,6 +22,8 @@ import hammer.ioc.Ioc;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// TODO Split this up
 public final class TaskProxiesImpl implements TaskProxies {
     // FIX 2130 The new spider will inject a list.  Remove assignment.
     private final List<TaskHandler> handlers = new ArrayList<TaskHandler>();

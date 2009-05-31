@@ -19,13 +19,13 @@ package hammer.util;
 import java.text.DecimalFormat;
 
 public final class TimerImpl implements Timer {
-    private long start;
-    private long duration;
-    private static final int INT_MILLIS = 1000;
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
     private static final double DUB_MILLIS = 1000;
+    private static final int INT_MILLIS = 1000;
     private static final int HOURS = 60;
     private static final int MINS = HOURS;
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
+    private long duration;
+    private long start;
 
     public void start() {
         start = System.currentTimeMillis();

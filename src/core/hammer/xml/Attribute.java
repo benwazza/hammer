@@ -27,11 +27,11 @@ public final class Attribute extends Primordial {
         this.value = value;
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public String getValue() {
+    public String value() {
         return value;
     }
 }

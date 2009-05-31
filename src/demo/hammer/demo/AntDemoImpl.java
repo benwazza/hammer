@@ -25,6 +25,7 @@ import hammer.core.Builder;
 import hammer.core.Hammer;
 import hammer.core.LittleHammer;
 
+// SUGGEST Need example/ability of executing ant tasks from everyday code
 public final class AntDemoImpl implements AntDemo {
 
     // package private fields are assigned by hammer

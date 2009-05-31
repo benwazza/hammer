@@ -25,7 +25,6 @@ public final class ReflectionImpl implements Reflection {
     EdgeMethod edgeMethod;
     EdgeClass edgeClass;
 
-
     public Object invoke(Object subject, String method, Object... params) {
         Method m = method(subject, method, params);
         return invoke(subject, m, params);

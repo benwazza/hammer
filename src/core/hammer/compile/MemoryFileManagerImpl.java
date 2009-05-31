@@ -33,14 +33,12 @@ public final class MemoryFileManagerImpl
         super(delegate);
     }
 
-    public JavaFileObject getJavaFileForOutput(
-        JavaFileManager.Location location,
-        String name,
-        JavaFileObject.Kind kind,
-        FileObject sibling) {
+    // OK LineLength {
+    public JavaFileObject getJavaFileForOutput(JavaFileManager.Location location, String name, JavaFileObject.Kind kind, FileObject sibling) {
         if (kind == JavaFileObject.Kind.CLASS) return inMemory(name);
         else return delegate(location, name, kind, sibling);
     }
+    // } OK LineLength
 
     public boolean can(String name) {
         return classes.containsKey(name);
@@ -58,16 +56,14 @@ public final class MemoryFileManagerImpl
         return cls;
     }
 
-    private JavaFileObject delegate(
-        JavaFileManager.Location location,
-        String name,
-        JavaFileObject.Kind kind,
-        FileObject sibling) {
+    // OK LineLength {
+    private JavaFileObject delegate(JavaFileManager.Location location, String name, JavaFileObject.Kind kind, FileObject sibling) {
         try {
             return super.getJavaFileForOutput(location, name, kind, sibling);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+    // } OK LineLength
 }
 

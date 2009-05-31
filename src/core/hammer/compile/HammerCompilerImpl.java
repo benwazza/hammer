@@ -17,6 +17,7 @@ package hammer.compile;
 
 import au.net.netstorm.boost.bullet.log.Log;
 import hammer.config.BuildConfig;
+import hammer.ioc.Ioc;
 
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticListener;
@@ -34,25 +35,25 @@ public final class HammerCompilerImpl implements HammerCompiler {
     private final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
     private final StandardJavaFileManager filer = compiler.getStandardFileManager(null, null, null);
     BuildConfig config;
+    Ioc ioc;
     Log log;
 
     public MemoryFileManager compile(File[] files, String classpath, HammerClassLoader loader) {
         if (config.trace()) log.trace("Compiling files: " + Arrays.toString(files));
-        MemoryFileManager manager = new MemoryFileManagerImpl(filer);
+        MemoryFileManager manager = ioc.nu(MemoryFileManager.class, filer);
         Iterable<? extends JavaFileObject> units = filer.getJavaFileObjects(files);
         List<String> options = compileOptions(classpath);
         return compile(manager, units, options);
     }
 
-    private MemoryFileManager compile(
-        MemoryFileManager manager,
-        Iterable<? extends JavaFileObject> units,
-        List<String> options) {
+    // OK LineLength {
+    private MemoryFileManager compile(MemoryFileManager manager, Iterable<? extends JavaFileObject> units, List<String> options) {
         JavaCompiler.CompilationTask task = compiler.getTask(null, manager, listener(), options, null, units);
         if (!task.call()) throw new CompilationException();
         if (config.trace()) log.trace("Compilation Successful!");
         return manager;
     }
+    // } OK LineLength
 
     private List<String> compileOptions(String classpath) {
         List<String> options = new ArrayList<String>();

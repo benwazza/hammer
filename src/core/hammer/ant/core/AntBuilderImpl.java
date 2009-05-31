@@ -85,13 +85,13 @@ public final class AntBuilderImpl implements AntBuilder {
     }
 
     private void startElement(Element element) throws SAXParseException {
-        Attributes attrs = buildAttributes(element.getAttrs());
-        String tagName = element.getName();
+        Attributes attrs = buildAttributes(element.attributes());
+        String tagName = element.name();
         antElementHandler.onStartElement(EMPTY_NAMESPACE, tagName, tagName, attrs, antXmlContext);
     }
 
     private void buildChildren(Element element) {
-        List<Element> children = element.getChildren();
+        List<Element> children = element.children();
         for (Element child : children) {
             buildElement(child);
         }
@@ -99,7 +99,7 @@ public final class AntBuilderImpl implements AntBuilder {
 
     protected void setText(Element element) throws SAXParseException {
         if (!element.hasText()) return;
-        String text = element.getText();
+        String text = element.text();
         final char[] characters = text.toCharArray();
         antElementHandler.characters(characters, 0, characters.length, antXmlContext);
     }
@@ -121,8 +121,8 @@ public final class AntBuilderImpl implements AntBuilder {
     protected static Attributes buildAttributes(final List<Attribute> attributes) {
         AttributesImpl attr = new AttributesImpl();
         for (Attribute attribute : attributes) {
-            String name = attribute.getName();
-            String value = attribute.getValue();
+            String name = attribute.name();
+            String value = attribute.value();
             attr.addAttribute(null, name, name, "CDATA", value);
         }
         return attr;

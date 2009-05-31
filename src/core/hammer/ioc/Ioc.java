@@ -13,13 +13,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 package hammer.ioc;
 
-import au.net.netstorm.boost.spider.api.runtime.Injector;
-import au.net.netstorm.boost.spider.api.runtime.Nu;
-import au.net.netstorm.boost.spider.api.runtime.Resolver;
+public interface Ioc {
 
-public interface Ioc extends Nu, Injector, Resolver, Registry {
+    <T> T nu(Class<T> iface, Object... values);
 
+    void inject(Object ref);
+
+    <T> T resolve(Class<T> type);
+
+    <T> void single(Class<T> iface, Class<? extends T> impl);
+
+    <T, U extends T> void instance(Class<T> iface, U impl);
+
+    <T> void multiple(Class<T> iface, Class<? extends T> impl);
 }

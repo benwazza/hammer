@@ -18,7 +18,6 @@ package hammer.util;
 
 import java.util.List;
 
-// TODO Add to Boost?
 public final class PadderImpl implements Padder {
 
     public void padAfter(List<StringBuffer> names, String padding) {

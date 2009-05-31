@@ -37,15 +37,15 @@ public final class Element extends Primordial {
         this.text = text;
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public List<Attribute> getAttrs() {
+    public List<Attribute> attributes() {
         return attrs;
     }
 
-    public List<Element> getChildren() {
+    public List<Element> children() {
         return children;
     }
 
@@ -53,7 +53,7 @@ public final class Element extends Primordial {
         return !text.equals(NO_TEXT);
     }
 
-    public String getText() {
+    public String text() {
         return text;
     }
 

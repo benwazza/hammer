@@ -16,7 +16,6 @@
 
 package hammer.ant.core;
 
-import au.net.netstorm.boost.spider.api.runtime.Nu;
 import hammer.ioc.Ioc;
 import org.apache.tools.ant.BuildLogger;
 import org.apache.tools.ant.Project;
@@ -25,14 +24,13 @@ import org.apache.tools.ant.input.InputHandler;
 
 public final class AntBuilderCreatorImpl implements AntBuilderCreator {
     Ioc ioc;
-    Nu nu;
 
     public AntBuilder create() {
         Project project = new Project();
         configureLogging(project);
         setupInputHandler(project);
         project.init();
-        return nu.nu(AntBuilder.class, project);
+        return ioc.nu(AntBuilder.class, project);
     }
 
     private void setupInputHandler(Project project) {
@@ -42,7 +40,7 @@ public final class AntBuilderCreatorImpl implements AntBuilderCreator {
 
     private void configureLogging(Project project) {
         ioc.single(BuildLogger.class, HammerAntLogger.class);
-        BuildLogger logger = nu.nu(BuildLogger.class);
+        BuildLogger logger = ioc.resolve(BuildLogger.class);
         project.addBuildListener(logger);
     }
 }
