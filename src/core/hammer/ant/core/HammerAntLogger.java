@@ -121,7 +121,7 @@ public final class HammerAntLogger implements BuildLogger, Constants {
     private void addTaskNameToLines(BuildEvent event, StringBuffer message, String name) throws IOException {
         BufferedReader r = new BufferedReader(new StringReader(event.getMessage()));
         String line = r.readLine();
-        if (line == null) message.append(name).append(LINE_SEP);
+        if (line == null) message.append(name).append(LINE_SEPARATOR);
         while (line != null) {
             message.append(name).append(line);
             line = r.readLine();

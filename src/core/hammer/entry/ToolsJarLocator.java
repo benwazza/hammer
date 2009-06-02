@@ -14,19 +14,8 @@
  * limitations under the License.
  */
 
-package hammer.core;
+package hammer.entry;
 
-import java.io.File;
-
-// OK InterfaceIsType {
-public interface Constants {
-    String FILE_SEPARATOR = File.separator;
-    String PATH_SEPARATOR = File.pathSeparator;
-    String LINE_SEPARATOR = System.getProperty("line.separator");
-    String JAVA_HOME_PATH = System.getProperty("java.home");
-    File JAVA_HOME = new File(JAVA_HOME_PATH);
-    String PROPERTIES_FILENAME = "hammer.properties";
-    int FAILURE = 1;
-    int OK = 0;
+public interface ToolsJarLocator {
+    String addToPath(String classpath);
 }
-// } OK InterfaceIsType

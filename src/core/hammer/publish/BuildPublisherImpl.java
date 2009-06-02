@@ -73,7 +73,7 @@ public final class BuildPublisherImpl implements BuildPublisher, Constants {
             StringBuffer name = names.get(i);
             System.out.println("  " + name + "  " + task.getDescription());
         }
-        System.out.println(LINE_SEP);
+        System.out.println(LINE_SEPARATOR);
     }
     // } OK GenericIllegalRegexp 
 }

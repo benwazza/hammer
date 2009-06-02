@@ -36,7 +36,7 @@ public final class BuildFailureException extends HammerException implements Cons
     private static String buildMessage(List<String> msgs) {
         StringBuffer msg = new StringBuffer();
         for (String message : msgs) {
-            msg.append(message).append(LINE_SEP);
+            msg.append(message).append(LINE_SEPARATOR);
         }
         return msg.toString();
     }

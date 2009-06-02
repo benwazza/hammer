@@ -30,9 +30,10 @@ import hammer.util.PropertiesFile;
 import java.io.File;
 
 public final class BuildWhispererImpl implements BuildWhisperer, Constants {
-    HammerCompiler compiler;
-    HammerClassLoader loader;
+    ToolsJarLocator toolsLocator;
     ClasspathMaster classpather;
+    HammerClassLoader loader;
+    HammerCompiler compiler;
     FileFinder fileFinder;
     EdgeClass classer;
     Ioc ioc;
@@ -51,6 +52,7 @@ public final class BuildWhispererImpl implements BuildWhisperer, Constants {
 
     private void prepareLoader(PropertiesFile props) {
         String classpath = props.getProperty("build.classpath");
+        classpath = toolsLocator.addToPath(classpath);
         MemoryFileManager fileManager = compileBuild(props, classpath);
         classpather.extend(classpath);
         loader.setManager(fileManager);
