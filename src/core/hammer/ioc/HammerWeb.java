@@ -25,6 +25,8 @@ import au.net.netstorm.boost.spider.api.runtime.Resolver;
 import hammer.log.BuildLogEngine;
 import hammer.log.LogIndenter;
 import hammer.log.LogIndenterImpl;
+import hammer.core.TaskRegistry;
+import hammer.core.TaskRegistryImpl;
 
 public final class HammerWeb implements Web {
     Mapper mapper;
@@ -39,6 +41,7 @@ public final class HammerWeb implements Web {
     }
 
     private void logging() {
+        wire.cls(TaskRegistryImpl.class).one().to(TaskRegistry.class);
         wire.cls(BuildLogEngine.class).one().to(LogEngine.class);
         wire.cls(DelegatingLog.class).to(Log.class);
         // Singleton for indentation tracking
