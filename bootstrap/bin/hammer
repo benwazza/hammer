@@ -73,22 +73,13 @@ if [ $minor -lt 6 ]; then
   exit 1
 fi
 
-
-HAMMER_LIB="${HAMMER_HOME}/lib"
-JARS=$HAMMER_LIB/hammer.jar:$HAMMER_LIB/boost.jar
-
-# FIX for Mark if he needs it, otherwise delete
-# FIX dupe. functions are cool.
-#bootstrap=`find bootstrap -name "*.jar" -type f -exec echo -n {}: \;`
-#lib=`find lib -name "*.jar" -type f -exec echo -n {}: \;`
-#jdk=`find $JAVA_HOME/lib -name "*.jar" -type f -exec echo -n {}: \;`
-#jars=${bootstrap}${lib}${jdk}
-#CLASSPATH=`echo $jars | sed 's/:$//g'`
+BOOTSTRAP=`find "$HAMMER_HOME/lib" -name "*.jar" -type f -exec echo -n {}: \;`
+BOOTSTRAP=`echo "$BOOTSTRAP" | sed 's/:$//g'`
 
 if [ -z "$CLASSPATH" ] ; then
-  CLASSPATH=$JARS
+  CLASSPATH=$BOOTSTRAP
 else
-  CLASSPATH=$JARS:$CLASSPATH
+  CLASSPATH=$BOOTSTRAP:$CLASSPATH
 fi
 
 if $cygwin; then
@@ -103,7 +94,6 @@ if $cygwin; then
     format=windows
   fi
   HAMMER_HOME=`cygpath --$format "$HAMMER_HOME"`
-  HAMMER_LIB=`cygpath --$format "$HAMMER_LIB"`
   JAVA_HOME=`cygpath --$format "$JAVA_HOME"`
   LCP_TEMP=`cygpath --path --unix "$LOCALCLASSPATH"`
   if [ -n "$CLASSPATH" ] ; then
