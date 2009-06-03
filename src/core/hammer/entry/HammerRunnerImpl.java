@@ -38,7 +38,7 @@ public final class HammerRunnerImpl implements HammerRunner, Constants {
     public int run(String... tasks) {
         try {
             return runBuild(tasks);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return handleError(e);
         }
     }
@@ -49,12 +49,8 @@ public final class HammerRunnerImpl implements HammerRunner, Constants {
         return hammer.hit(build, tasks);
     }
 
-    // TODO Use in HammerImpl as well
-    private int handleError(Exception e) {
-        Throwable cleaned = e;
-        if (e instanceof InstantiationException)
-            cleaned = e.getCause();
-        status.logException(log, cleaned);
+    private int handleError(Throwable e) {
+        status.logException(log, e);
         return FAILURE;
     }
 }

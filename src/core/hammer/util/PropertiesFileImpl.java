@@ -16,7 +16,6 @@
 
 package hammer.util;
 
-import au.net.netstorm.boost.spider.api.lifecycle.Constructable;
 import edge.java.io.FileReader;
 import edge.java.util.Properties;
 import hammer.config.BuildConfigException;
@@ -24,16 +23,11 @@ import hammer.ioc.Ioc;
 
 import java.io.File;
 
-public final class PropertiesFileImpl implements PropertiesFile, Constructable {
+public final class PropertiesFileImpl implements PropertiesFile {
     private Properties props;
-    private String filename;
     Ioc ioc;
 
-    public PropertiesFileImpl(String filename) {
-        this.filename = filename;
-    }
-
-    public void constructor() {
+    public void load(String filename) {
         props = props(filename);
     }
 

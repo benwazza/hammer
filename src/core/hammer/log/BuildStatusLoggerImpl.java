@@ -28,7 +28,7 @@ public final class BuildStatusLoggerImpl implements BuildStatusLogger {
         logStatus(log, time, true);
     }
 
-    public void logFail(Log log, Exception e, Timer time) {
+    public void logFail(Log log, Throwable e, Timer time) {
         logException(log, e);
         logStatus(log, time, false);
     }
@@ -38,7 +38,7 @@ public final class BuildStatusLoggerImpl implements BuildStatusLogger {
         log.info("");
         Throwable real = tosser.realCause(e);
         if (!(real instanceof HammerException)) log.info(tosser.trace(real));
-        log.info("Exception: " + real.getMessage());
+        log.info("ERROR: [" + e.getClass().getSimpleName() + "] " + real.getMessage());
         log.info("");
     }
 

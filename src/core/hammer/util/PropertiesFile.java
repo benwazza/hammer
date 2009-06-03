@@ -17,5 +17,7 @@
 package hammer.util;
 
 public interface PropertiesFile {
+    void load(String filename);
+
     String getProperty(String name);
 }

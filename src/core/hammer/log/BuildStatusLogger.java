@@ -22,7 +22,7 @@ import hammer.util.Timer;
 public interface BuildStatusLogger {
     void logSuccess(Log log, Timer time);
 
-    void logFail(Log log, Exception e, Timer time);
+    void logFail(Log log, Throwable e, Timer time);
 
     void logException(Log log, Throwable e);
 }

@@ -39,7 +39,8 @@ public final class BuildWhispererImpl implements BuildWhisperer, Constants {
     Ioc ioc;
 
     public Build createBuild() {
-        PropertiesFile props = ioc.nu(PropertiesFile.class, PROPERTIES_FILENAME);
+        PropertiesFile props = ioc.nu(PropertiesFile.class);
+        props.load(PROPERTIES_FILENAME);
         prepareLoader(props);
         return instatiateBuild(props);
     }

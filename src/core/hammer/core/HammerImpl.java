@@ -49,7 +49,7 @@ public final class HammerImpl implements Hammer, Builder, Constants {
     }
 
     private int runTasks(Build build, String... tasks) {
-        Exception e = runSafe(build, tasks);
+        Throwable e = runSafe(build, tasks);
         if (e != null) {
             status.logFail(log, e, timer);
             return FAILURE;
@@ -59,12 +59,12 @@ public final class HammerImpl implements Hammer, Builder, Constants {
     }
 
     // FIX Layer here
-    private Exception runSafe(Build build, String... tasks) {
+    private Throwable runSafe(Build build, String... tasks) {
         try {
             timer.start();
             proxies.runTasks(build, tasks);
             return null;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return e;
         } finally {
             timer.stop();
