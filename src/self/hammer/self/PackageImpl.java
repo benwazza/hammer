@@ -40,6 +40,8 @@ public final class PackageImpl implements Package, BuildConstants {
     private static final File BOOTSTRAP_LIB_DIR = new File(BOOTSTRAP_DIR, "lib");
     private static final File BOOST_DIR = new File(LIB_DIR, "boost");
     private static final File BOOST_JAR = new File(BOOST_DIR, "boost.jar");
+    private static final File KICKSTART_DIR = new File(DEMO_SRC_DIR, "hammer/kickstart");
+
     private static final Element MANIFEST =
         e("manifest",
             manifestAttr("Built-By", "agilemethods.com.au"),
@@ -49,7 +51,6 @@ public final class PackageImpl implements Package, BuildConstants {
                 manifestAttr("Implementation-Vendor", "agilemethods.com.au")
             )
         );
-
     Compile compile;
     Ant ant;
     Package self;
@@ -67,10 +68,11 @@ public final class PackageImpl implements Package, BuildConstants {
         self.jars();
         ant.mkDir(INSTALLS_DIR);
         ant.zip(ZIP,
-            binScript(BOOTSTRAP_BIN_DIR, "hammer"),
-            distLibJar(JARS_DIR, CORE_JAR.getName()),
-            distLibJar(JARS_DIR, SRC_JAR.getName()),
-            distLibJar(BOOST_DIR, BOOST_JAR.getName())
+            addToZip(BOOTSTRAP_BIN_DIR, "hammer", ARTIFACTS_NAME + "/bin", "755"),
+            addToZip(JARS_DIR, CORE_JAR.getName(), ARTIFACTS_NAME + "/lib", "644"),
+            addToZip(JARS_DIR, SRC_JAR.getName(), ARTIFACTS_NAME + "/lib", "644"),
+            addToZip(BOOST_DIR, BOOST_JAR.getName(), ARTIFACTS_NAME + "/lib", "644"),
+            addToZip(KICKSTART_DIR, "*", ARTIFACTS_NAME + "/kickstart", "644")
         );
         ant.zipToTgz(ZIP, TGZ);
     }
@@ -81,12 +83,8 @@ public final class PackageImpl implements Package, BuildConstants {
         ant.copyToDir(BOOST_JAR, BOOTSTRAP_LIB_DIR);
     }
 
-    private Element binScript(File dir, String script) {
-        return zipFileSet(dir, "755", ARTIFACTS_NAME + "/bin", include(script));
-    }
-
-    private Element distLibJar(File dir, String jarName) {
-        return zipFileSet(dir, "644", ARTIFACTS_NAME + "/lib", include(jarName));
+    private Element addToZip(File dir, String pattern, String zipPrefix, String perms) {
+        return zipFileSet(dir, perms, zipPrefix, include(pattern));
     }
 
     private void makeJar(File jarFile, File classDir) {
