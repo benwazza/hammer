@@ -37,6 +37,8 @@ fi
 if $cygwin ; then
   [ -n "$HAMMER_HOME" ] &&
     HAMMER_HOME=`cygpath --unix "$HAMMER_HOME"`
+  [ -n "$ANT_HOME" ] &&
+    ANT_HOME=`cygpath --unix "$ANT_HOME"`
   [ -n "$JAVA_HOME" ] &&
     JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
 fi
@@ -73,8 +75,16 @@ if [ $minor -lt 6 ]; then
   exit 1
 fi
 
-BOOTSTRAP=`find "$HAMMER_HOME/lib" -name "*.jar" -type f -exec echo -n {}: \;`
-BOOTSTRAP=`echo "$BOOTSTRAP" | sed 's/:$//g'`
+hammer_bootstrap=`find "$HAMMER_HOME/lib" -name "*.jar" -type f -exec echo -n {}: \;`
+ant_bootstrap=
+if [ -n "$ANT_HOME" ]; then
+    ant_bootstrap=`find "$ANT_HOME/lib" -name "*.jar" -type f -exec echo -n {}: \;`
+else
+    echo "\nWarning ANT_HOME has not been set. Ant classes will not be loaded.\n"
+fi
+
+
+BOOTSTRAP=`echo "${hammer_bootstrap}${ant_bootstrap}" | sed 's/:$//g'`
 
 if [ -z "$CLASSPATH" ] ; then
   CLASSPATH=$BOOTSTRAP
@@ -94,6 +104,7 @@ if $cygwin; then
     format=windows
   fi
   HAMMER_HOME=`cygpath --$format "$HAMMER_HOME"`
+  ANT_HOME=`cygpath --$format "$ANT_HOME"`
   JAVA_HOME=`cygpath --$format "$JAVA_HOME"`
   LCP_TEMP=`cygpath --path --unix "$LOCALCLASSPATH"`
   if [ -n "$CLASSPATH" ] ; then
@@ -106,6 +117,11 @@ if $cygwin; then
   case "$HAMMER_HOME" in
     *\\ )
     HAMMER_HOME="$HAMMER_HOME\\"
+    ;;
+  esac
+  case "$ANT_HOME" in
+    *\\ )
+    ANT_HOME="$ANT_HOME\\"
     ;;
   esac
   case "$CYGHOME" in
@@ -129,6 +145,6 @@ fi
 
 hammer_command="exec \"$JAVACMD\" -classpath \"$CLASSPATH\" $JAVA_OPTS $cyg_home hammer.entry.HammerMain $@"
 
-#echo $hammer_command
+echo $hammer_command
 
 eval $hammer_command
