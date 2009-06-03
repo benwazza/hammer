@@ -68,11 +68,11 @@ public final class PackageImpl implements Package, BuildConstants {
         self.jars();
         ant.mkDir(INSTALLS_DIR);
         ant.zip(ZIP,
-            addToZip(BOOTSTRAP_BIN_DIR, "hammer", ARTIFACTS_NAME + "/bin", "755"),
-            addToZip(JARS_DIR, CORE_JAR.getName(), ARTIFACTS_NAME + "/lib", "644"),
-            addToZip(JARS_DIR, SRC_JAR.getName(), ARTIFACTS_NAME + "/lib", "644"),
-            addToZip(BOOST_DIR, BOOST_JAR.getName(), ARTIFACTS_NAME + "/lib", "644"),
-            addToZip(KICKSTART_DIR, "*", ARTIFACTS_NAME + "/kickstart", "644")
+            addToZip(BOOTSTRAP_BIN_DIR, "hammer", "/bin", "755"),
+            addToZip(JARS_DIR, CORE_JAR.getName(), "/lib", "644"),
+            addToZip(JARS_DIR, SRC_JAR.getName(), "/lib", "644"),
+            addToZip(BOOST_DIR, BOOST_JAR.getName(), "/lib", "644"),
+            addToZip(KICKSTART_DIR, "*", "/kickstart", "644")
         );
         ant.zipToTgz(ZIP, TGZ);
     }
@@ -83,8 +83,8 @@ public final class PackageImpl implements Package, BuildConstants {
         ant.copyToDir(BOOST_JAR, BOOTSTRAP_LIB_DIR);
     }
 
-    private Element addToZip(File dir, String pattern, String zipPrefix, String perms) {
-        return zipFileSet(dir, perms, zipPrefix, include(pattern));
+    private Element addToZip(File dir, String pattern, String zipPath, String perms) {
+        return zipFileSet(dir, perms, artifact(zipPath), include(pattern));
     }
 
     private void makeJar(File jarFile, File classDir) {
