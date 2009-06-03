@@ -1,0 +1,35 @@
+Hammer Installation
+===================
+
+UNIX
+----
+
+Set HAMMER_HOME to location of your Hammer base directory.
+For development you can set it to the boostrap directory of
+your project checkout.
+
+eg HAMMER_HOME=/usr/share/hammer
+
+Then add $HAMMER_HOME/bin to your PATH
+
+If you wish to use Ant tasks you must ensure ANT_HOME points
+to the base directory of an Ant installation.
+
+Remember to source your environment files after adding the above!
+
+Check your install by changing into the 'sample' directory of
+your Hammer installation and running the small sample build contained
+there.
+
+eg.
+
+$> cd $HAMMER_HOME/sample
+$> hammer
+
+You should see some output echoed to terminal.
+
+
+
+WINDOWS
+-------
+TODO Windows Install
