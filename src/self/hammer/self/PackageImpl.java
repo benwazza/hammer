@@ -22,19 +22,23 @@ import static hammer.ant.core.AntXml.include;
 import static hammer.ant.core.AntXml.manifestAttr;
 import static hammer.ant.core.AntXml.zipFileSet;
 import hammer.ant.helper.Ant;
+import hammer.core.Constants;
 import hammer.xml.Element;
 
 import java.io.File;
 
-public final class PackageImpl implements Package, BuildConstants {
+public final class PackageImpl implements Package, BuildConstants, Constants {
     private static final File JARS_DIR = new File(ARTIFACTS_DIR, "jars");
     private static final File CORE_JAR = new File(JARS_DIR, artifact(".jar"));
     private static final File SRC_JAR = new File(JARS_DIR, artifact("-src.jar"));
     private static final File DEMO_JAR = new File(JARS_DIR, artifact("-demo.jar"));
     private static final File SELF_JAR = new File(JARS_DIR, artifact("-self.jar"));
     private static final File INSTALLS_DIR = new File(ARTIFACTS_DIR, "installs");
+    private static final File SRC_EXPORT = new File(JAVA_TMPDIR, artifact("-src"));
     private static final File ZIP = new File(INSTALLS_DIR, artifact(".zip"));
+    private static final File SRC_ZIP = new File(INSTALLS_DIR, artifact("-src.zip"));
     private static final File TGZ = new File(INSTALLS_DIR, artifact(".tar.gz"));
+    private static final File SRC_TGZ = new File(INSTALLS_DIR, artifact("-src.tar.gz"));
     private static final File BOOTSTRAP_DIR = new File(BASE_DIR, "bootstrap");
     private static final File BOOTSTRAP_BIN_DIR = new File(BOOTSTRAP_DIR, "bin");
     private static final File BOOTSTRAP_LIB_DIR = new File(BOOTSTRAP_DIR, "lib");
@@ -66,7 +70,7 @@ public final class PackageImpl implements Package, BuildConstants {
 
     public void dist() {
         self.jars();
-        ant.mkDir(INSTALLS_DIR);
+        clean(INSTALLS_DIR);
         ant.zip(ZIP,
             addToZip(BOOTSTRAP_BIN_DIR, "hammer", "/bin", "755"),
             addToZip(JARS_DIR, CORE_JAR.getName(), "/lib", "644"),
@@ -75,6 +79,17 @@ public final class PackageImpl implements Package, BuildConstants {
             addToZip(KICKSTART_DIR, "*", "/kickstart", "644")
         );
         ant.zipToTgz(ZIP, TGZ);
+        self.srcDists();
+    }
+
+    // TODO Check this
+    public void srcDists() {
+        mkdir(INSTALLS_DIR);
+        clean(SRC_EXPORT);
+        String gitArgs = "checkout-index '--prefix=" + SRC_EXPORT.getPath() + "/' -a";
+        ant.exec(BASE_DIR, "git", e("arg", a("line", gitArgs)));
+        ant.zip(SRC_ZIP, e("fileset", a("dir", SRC_EXPORT)));
+        ant.zipToTgz(SRC_ZIP, SRC_TGZ);
     }
 
     public void updateBootstrap() {
@@ -93,5 +108,16 @@ public final class PackageImpl implements Package, BuildConstants {
 
     private static String artifact(String suffix) {
         return ARTIFACTS_NAME + "-" + VERSION + suffix;
+    }
+
+    // TODO Split out or put in Ant
+    private void clean(File dir) {
+        if (dir.exists()) ant.deleteDir(dir);
+        ant.mkDir(dir);
+    }
+
+    // TODO Split out or put in Ant
+    private void mkdir(File dir) {
+        if (!dir.exists()) ant.mkDir(dir);
     }
 }

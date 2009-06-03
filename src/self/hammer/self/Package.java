@@ -26,6 +26,9 @@ public interface Package extends BuildTasks {
     @Publish("Produce the distributable zip and tar")
     void dist();
 
+    @Publish("Create the src dists via git")
+    void srcDists();
+
     @Publish("Update the bootstrap jars")
     void updateBootstrap();
 }

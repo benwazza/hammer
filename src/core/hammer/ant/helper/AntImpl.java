@@ -23,6 +23,7 @@ import static hammer.ant.core.AntXml.a;
 import static hammer.ant.core.AntXml.e;
 import hammer.ioc.Ioc;
 import hammer.xml.Element;
+import hammer.xml.Attribute;
 
 import java.io.File;
 
@@ -91,6 +92,14 @@ public final class AntImpl implements Ant, Constructable {
         run(e("tar", a("destfile", tgz), a("compression", "gzip"),
             e("zipfileset", a("src", zip))
         ));
+    }
+
+    public void exec(File dir, String executable, Element... contents) {
+        run(e("exec", a("dir", dir), a("executable", executable)).with(new Attribute[0], contents));
+    }
+
+    public void exec(File dir, String executable, Attribute[] attrs, Element... contents) {
+        run(e("exec", a("dir", dir), a("executable", executable)).with(attrs, contents));
     }
 
     private void delete(String fileOrDir, File file) {

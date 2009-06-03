@@ -17,6 +17,7 @@
 package hammer.ant.helper;
 
 import hammer.xml.Element;
+import hammer.xml.Attribute;
 
 import java.io.File;
 
@@ -46,4 +47,8 @@ public interface Ant {
     void zipToTgz(File zip, File tgz);
 
     void copyToFile(File file, File toDir);
+
+    void exec(File dir, String executable, Element... contents);
+
+    void exec(File dir, String executable, Attribute[] attrs, Element... contents);
 }

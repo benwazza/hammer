@@ -24,6 +24,8 @@ public interface Constants {
     String PATH_SEPARATOR = File.pathSeparator;
     String LINE_SEPARATOR = System.getProperty("line.separator");
     String JAVA_HOME_PATH = System.getProperty("java.home");
+    String JAVA_TMPDIR_PATH = System.getProperty("java.io.tmpdir");
+    File JAVA_TMPDIR = new File(JAVA_TMPDIR_PATH);
     File JAVA_HOME = new File(JAVA_HOME_PATH);
     String PROPERTIES_FILENAME = "hammer.properties";
     int FAILURE = 1;
