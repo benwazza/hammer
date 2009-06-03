@@ -4,7 +4,7 @@ Hammer Installation
 UNIX
 ----
 
-Set HAMMER_HOME to location of your Hammer base directory.
+Set HAMMER_HOME to the location of your Hammer base directory.
 For development you can set it to the boostrap directory of
 your project checkout.
 
