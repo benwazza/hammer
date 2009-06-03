@@ -26,7 +26,7 @@ eg.
 $> cd $HAMMER_HOME/sample
 $> hammer
 
-You should see some output echoed to terminal.
+You should see some output echoed to the terminal.
 
 
 
