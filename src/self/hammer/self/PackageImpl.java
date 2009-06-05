@@ -16,11 +16,11 @@
 
 package hammer.self;
 
-import hammer.ant.core.AntXml;
 import static hammer.ant.core.AntXml.a;
 import static hammer.ant.core.AntXml.e;
 import static hammer.ant.core.AntXml.include;
 import static hammer.ant.core.AntXml.manifestAttr;
+import static hammer.ant.core.AntXml.zipFileSet;
 import hammer.ant.helper.Ant;
 import hammer.core.Constants;
 import hammer.xml.Element;
@@ -29,16 +29,16 @@ import java.io.File;
 
 public final class PackageImpl implements Package, BuildConstants, Constants {
     private static final File JARS_DIR = new File(ARTIFACTS_DIR, "jars");
-    private static final File CORE_JAR = new File(JARS_DIR, artifact(".jar"));
-    private static final File SRC_JAR = new File(JARS_DIR, artifact("-src.jar"));
-    private static final File DEMO_JAR = new File(JARS_DIR, artifact("-demo.jar"));
-    private static final File SELF_JAR = new File(JARS_DIR, artifact("-self.jar"));
+    private static final File CORE_JAR = new File(JARS_DIR, versionName(".jar"));
+    private static final File SRC_JAR = new File(JARS_DIR, versionName("-src.jar"));
+    private static final File DEMO_JAR = new File(JARS_DIR, versionName("-demo.jar"));
+    private static final File SELF_JAR = new File(JARS_DIR, versionName("-self.jar"));
     private static final File INSTALLS_DIR = new File(ARTIFACTS_DIR, "installs");
-    private static final File SRC_EXPORT = new File(JAVA_TMPDIR, artifact("-src"));
-    private static final File ZIP = new File(INSTALLS_DIR, artifact(".zip"));
-    private static final File SRC_ZIP = new File(INSTALLS_DIR, artifact("-src.zip"));
-    private static final File TGZ = new File(INSTALLS_DIR, artifact(".tar.gz"));
-    private static final File SRC_TGZ = new File(INSTALLS_DIR, artifact("-src.tar.gz"));
+    private static final File SRC_EXPORT = new File(JAVA_TMPDIR, versionName("-src"));
+    private static final File ZIP = new File(INSTALLS_DIR, versionName(".zip"));
+    private static final File SRC_ZIP = new File(INSTALLS_DIR, versionName("-src.zip"));
+    private static final File TGZ = new File(INSTALLS_DIR, versionName(".tar.gz"));
+    private static final File SRC_TGZ = new File(INSTALLS_DIR, versionName("-src.tar.gz"));
     private static final File BOOTSTRAP_DIR = new File(BASE_DIR, "bootstrap");
     private static final File BOOTSTRAP_BIN_DIR = new File(BOOTSTRAP_DIR, "bin");
     private static final File BOOTSTRAP_LIB_DIR = new File(BOOTSTRAP_DIR, "lib");
@@ -71,22 +71,27 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
     public void dist() {
         self.jars();
         clean(INSTALLS_DIR);
-        ant.zip(ZIP,
-            zipFileSet(BOOTSTRAP_BIN_DIR, "hammer", "/bin", "755"),
-            zipFileSet(JARS_DIR, CORE_JAR.getName(), "/lib", "644"),
-            zipFileSet(JARS_DIR, SRC_JAR.getName(), "/lib", "644"),
-            zipFileSet(BOOST_DIR, BOOST_JAR.getName(), "/lib", "644"),
-            zipFileSet(KICKSTART_DIR, "*", "/kickstart", "644")
-        );
+        binDists();
         ant.zipToTgz(ZIP, TGZ);
-        self.srcDists();
+        srcDists();
     }
 
-    public void srcDists() {
-        ant.mkDir(INSTALLS_DIR);
+    private void binDists() {
+        ant.zip(ZIP,
+            addToZip(BOOTSTRAP_BIN_DIR, "/bin", "744", "hammer"),
+            addToZip(JARS_DIR, "/lib", "644", CORE_JAR.getName()),
+            addToZip(JARS_DIR, "/lib", "644", SRC_JAR.getName()),
+            addToZip(BOOST_DIR, "/lib", "644", BOOST_JAR.getName()),
+            addToZip(KICKSTART_DIR, "/kickstart", "644", "*"),
+            addToZip(BASE_DIR, "/", "INSTALL.txt"),
+            addToZip(BASE_DIR, "/", "README.txt")
+        );
+    }
+
+    private void srcDists() {
         clean(SRC_EXPORT);
         gitExport(BASE_DIR, SRC_EXPORT);
-        ant.zip(SRC_ZIP, AntXml.zipFileSet(JAVA_TMPDIR, include(SRC_EXPORT.getName() + "/**")));
+        ant.zip(SRC_ZIP, zipFileSet(JAVA_TMPDIR, include(SRC_EXPORT.getName() + "/**")));
         ant.zipToTgz(SRC_ZIP, SRC_TGZ);
         ant.deleteDir(SRC_EXPORT);
     }
@@ -97,16 +102,21 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
         ant.copyToDir(BOOST_JAR, BOOTSTRAP_LIB_DIR);
     }
 
-    private Element zipFileSet(File dir, String pattern, String zipPath, String perms) {
-        Element files = AntXml.zipFileSet(dir, include(pattern));
-        return files.withAttrs(a("prefix", artifact(zipPath)), a("filemode", perms));
+    private Element addToZip(File dir, String zipPath, String perms, String pattern) {
+        Element files = addToZip(dir, zipPath, pattern);
+        return files.withAttrs(a("filemode", perms));
+    }
+
+    private Element addToZip(File dir, String zipPath, String pattern) {
+        Element files = zipFileSet(dir, include(pattern));
+        return files.withAttrs(a("prefix", versionName(zipPath)));
     }
 
     private void makeJar(File jarFile, File classDir) {
         ant.jar(jarFile, classDir, MANIFEST);
     }
 
-    private static String artifact(String suffix) {
+    private static String versionName(String suffix) {
         return ARTIFACTS_NAME + "-" + VERSION + suffix;
     }
 
