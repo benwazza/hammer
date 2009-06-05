@@ -16,11 +16,11 @@
 
 package hammer.self;
 
+import hammer.ant.core.AntXml;
 import static hammer.ant.core.AntXml.a;
 import static hammer.ant.core.AntXml.e;
 import static hammer.ant.core.AntXml.include;
 import static hammer.ant.core.AntXml.manifestAttr;
-import static hammer.ant.core.AntXml.zipFileSet;
 import hammer.ant.helper.Ant;
 import hammer.core.Constants;
 import hammer.xml.Element;
@@ -72,23 +72,21 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
         self.jars();
         clean(INSTALLS_DIR);
         ant.zip(ZIP,
-            addToZip(BOOTSTRAP_BIN_DIR, "hammer", "/bin", "755"),
-            addToZip(JARS_DIR, CORE_JAR.getName(), "/lib", "644"),
-            addToZip(JARS_DIR, SRC_JAR.getName(), "/lib", "644"),
-            addToZip(BOOST_DIR, BOOST_JAR.getName(), "/lib", "644"),
-            addToZip(KICKSTART_DIR, "*", "/kickstart", "644")
+            zipFileSet(BOOTSTRAP_BIN_DIR, "hammer", "/bin", "755"),
+            zipFileSet(JARS_DIR, CORE_JAR.getName(), "/lib", "644"),
+            zipFileSet(JARS_DIR, SRC_JAR.getName(), "/lib", "644"),
+            zipFileSet(BOOST_DIR, BOOST_JAR.getName(), "/lib", "644"),
+            zipFileSet(KICKSTART_DIR, "*", "/kickstart", "644")
         );
         ant.zipToTgz(ZIP, TGZ);
         self.srcDists();
     }
 
-    // TODO Check this
     public void srcDists() {
         mkdir(INSTALLS_DIR);
         clean(SRC_EXPORT);
-        String gitArgs = "checkout-index '--prefix=" + SRC_EXPORT.getPath() + "/' -a";
-        ant.exec(BASE_DIR, "git", e("arg", a("line", gitArgs)));
-        ant.zip(SRC_ZIP, e("fileset", a("dir", SRC_EXPORT)));
+        gitExport(BASE_DIR, SRC_EXPORT);
+        ant.zip(SRC_ZIP, AntXml.zipFileSet(JAVA_TMPDIR, include(SRC_EXPORT.getName() + "/**")));
         ant.zipToTgz(SRC_ZIP, SRC_TGZ);
     }
 
@@ -98,8 +96,9 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
         ant.copyToDir(BOOST_JAR, BOOTSTRAP_LIB_DIR);
     }
 
-    private Element addToZip(File dir, String pattern, String zipPath, String perms) {
-        return zipFileSet(dir, perms, artifact(zipPath), include(pattern));
+    private Element zipFileSet(File dir, String pattern, String zipPath, String perms) {
+        Element files = AntXml.zipFileSet(dir, include(pattern));
+        return files.withAttrs(a("prefix", artifact(zipPath)), a("filemode", perms));
     }
 
     private void makeJar(File jarFile, File classDir) {
@@ -108,6 +107,12 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
 
     private static String artifact(String suffix) {
         return ARTIFACTS_NAME + "-" + VERSION + suffix;
+    }
+
+    // TODO Split out
+    private void gitExport(File repoDir, File toDir) {
+        String gitArgs = "checkout-index '--prefix=" + toDir.getPath() + "/' -a";
+        ant.exec(repoDir, "git", e("arg", a("line", gitArgs)));
     }
 
     // TODO Split out or put in Ant

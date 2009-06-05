@@ -48,11 +48,6 @@ public class AntXml {
         return fileSet("zipfileset", dir, children);
     }
 
-    public static Element zipFileSet(File dir, String perms, String prefix, Element... children) {
-        return zipFileSet(dir, children)
-            .withAttrs(a("prefix", prefix), a("filemode", perms));
-    }
-
     public static Element classPath(Element... children) {
         return e("classpath").withElems(children);
     }

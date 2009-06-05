@@ -38,7 +38,7 @@ public final class BuildStatusLoggerImpl implements BuildStatusLogger {
         log.info("");
         Throwable real = tosser.realCause(e);
         if (!(real instanceof HammerException)) log.info(tosser.trace(real));
-        log.info("ERROR: [" + e.getClass().getSimpleName() + "] " + real.getMessage());
+        log.info("ERROR: [" + real.getClass().getSimpleName() + "] " + real.getMessage());
         log.info("");
     }
 
