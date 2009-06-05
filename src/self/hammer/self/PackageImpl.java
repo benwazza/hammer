@@ -83,11 +83,12 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
     }
 
     public void srcDists() {
-        mkdir(INSTALLS_DIR);
+        ant.mkDir(INSTALLS_DIR);
         clean(SRC_EXPORT);
         gitExport(BASE_DIR, SRC_EXPORT);
         ant.zip(SRC_ZIP, AntXml.zipFileSet(JAVA_TMPDIR, include(SRC_EXPORT.getName() + "/**")));
         ant.zipToTgz(SRC_ZIP, SRC_TGZ);
+        ant.deleteDir(SRC_EXPORT);
     }
 
     public void updateBootstrap() {
@@ -119,10 +120,5 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
     private void clean(File dir) {
         if (dir.exists()) ant.deleteDir(dir);
         ant.mkDir(dir);
-    }
-
-    // TODO Split out or put in Ant
-    private void mkdir(File dir) {
-        if (!dir.exists()) ant.mkDir(dir);
     }
 }

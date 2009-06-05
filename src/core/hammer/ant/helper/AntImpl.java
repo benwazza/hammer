@@ -103,6 +103,6 @@ public final class AntImpl implements Ant, Constructable {
     }
 
     private void delete(String fileOrDir, File file) {
-        run("delete", a(fileOrDir, file));
+        run("delete", a(fileOrDir, file), a("includeemptydirs", "true"));
     }
 }
