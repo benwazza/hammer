@@ -36,17 +36,19 @@ public interface Ant {
 
     void deleteFile(File file);
 
-    void taskDef(String resourceName, Element classPath);
+    void copyToFile(File file, File toDir);
 
     void copyToDir(File file, File toDir);
+
+    void copyToDir(File toDir, Element... contents);
+
+    void taskDef(String resourceName, Element classPath);
 
     void jar(File jarFile, File classDir, Element manifest);
 
     void zip(File zip, Element... contents);
 
     void zipToTgz(File zip, File tgz);
-
-    void copyToFile(File file, File toDir);
 
     void exec(File dir, String executable, Element... contents);
 

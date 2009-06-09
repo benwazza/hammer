@@ -36,10 +36,6 @@ public class AntXml {
         return Xml.a(name, value);
     }
 
-    public static Element fileSet(String type, File dir, Element... children) {
-        return e(type, a("dir", dir)).withElems(children);
-    }
-
     public static Element fileSet(File dir, Element... children) {
         return fileSet("fileset", dir, children);
     }
@@ -74,5 +70,13 @@ public class AntXml {
 
     public static Element filter(String name, String value) {
         return e("filter", a("token", name), a("value", value));
+    }
+
+    private static Element fileSet(String type, File dir, Element... children) {
+        return e(type, a("dir", dir)).withElems(children);
+    }
+
+    public static Element copyToDir(File toDir) {
+        return e("copy", a("todir", toDir));
     }
 }

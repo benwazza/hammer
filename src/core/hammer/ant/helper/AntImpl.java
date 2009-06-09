@@ -19,6 +19,7 @@ package hammer.ant.helper;
 import au.net.netstorm.boost.spider.api.lifecycle.Constructable;
 import hammer.ant.core.AntBuilder;
 import hammer.ant.core.AntBuilderCreator;
+import hammer.ant.core.AntXml;
 import static hammer.ant.core.AntXml.a;
 import static hammer.ant.core.AntXml.e;
 import hammer.ioc.Ioc;
@@ -64,12 +65,16 @@ public final class AntImpl implements Ant, Constructable {
         delete("file", file);
     }
 
-    public void copyToDir(File file, File toDir) {
-        run("copy", a("file", file), a("todir", toDir));
+    public void copyToFile(File file, File toFile) {
+        run("copy", a("file", file), a("tofile", toFile));
     }
 
-    public void copyToFile(File file, File toDir) {
-        run("copy", a("file", file), a("tofile", toDir));
+    public void copyToDir(File file, File toDir) {
+        run(AntXml.copyToDir(toDir).withAttrs(a("file", file)));
+    }
+
+    public void copyToDir(File toDir, Element... contents) {
+        run(AntXml.copyToDir(toDir).withElems(contents));
     }
 
     public void taskDef(String resource, Element classPath) {
@@ -98,6 +103,7 @@ public final class AntImpl implements Ant, Constructable {
         run(e("exec", a("dir", dir), a("executable", executable)).with(new Attribute[0], contents));
     }
 
+    // FIX Move this into AntXml and delete
     public void exec(File dir, String executable, Attribute[] attrs, Element... contents) {
         run(e("exec", a("dir", dir), a("executable", executable)).with(attrs, contents));
     }

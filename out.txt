@@ -1,0 +1,7 @@
+e("grandmummy", 
+    e("mummy"), 
+    e("mummy", a("greeting", "I'm a Mummy!")), 
+    e("mummy", a("greeting", "I'm also a Mummy!"), 
+        e("daughter"), "I'm a Mummy 1", e("daughter"), "<I'm a Mummy too!> I'm a Mummy 2", e("daughter")
+    )
+);

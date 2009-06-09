@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<grandparent>
+    <parent/>
+    <parent greeting="I'm a Parent!"/>
+    <parent greeting="I'm also a Parent!">
+        <child/>
+                I'm not a parent.
+        <child/>
+        <![CDATA[ <I'm not a parent either.> ]]>
+        Neither am I.
+        <child/>
+    </parent>
+</grandparent>

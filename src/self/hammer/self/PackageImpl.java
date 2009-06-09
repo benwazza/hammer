@@ -18,6 +18,7 @@ package hammer.self;
 
 import static hammer.ant.core.AntXml.a;
 import static hammer.ant.core.AntXml.e;
+import static hammer.ant.core.AntXml.fileSet;
 import static hammer.ant.core.AntXml.include;
 import static hammer.ant.core.AntXml.manifestAttr;
 import static hammer.ant.core.AntXml.zipFileSet;
@@ -29,7 +30,7 @@ import java.io.File;
 
 public final class PackageImpl implements Package, BuildConstants, Constants {
     private static final File JARS_DIR = new File(ARTIFACTS_DIR, "jars");
-    private static final File CORE_JAR = new File(JARS_DIR, versionName(".jar"));
+    private static final File CORE_JAR = new File(JARS_DIR, versionName("-core.jar"));
     private static final File SRC_JAR = new File(JARS_DIR, versionName("-src.jar"));
     private static final File DEMO_JAR = new File(JARS_DIR, versionName("-demo.jar"));
     private static final File SELF_JAR = new File(JARS_DIR, versionName("-self.jar"));
@@ -62,6 +63,7 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
     public void jars() {
         compile.compile();
         ant.mkDir(JARS_DIR);
+        ant.copyToDir(CORE_CLASS_DIR, fileSet(CORE_SRC_DIR, include("**/*.xsl")));
         makeJar(CORE_JAR, CORE_CLASS_DIR);
         makeJar(SRC_JAR, CORE_SRC_DIR);
         makeJar(DEMO_JAR, DEMO_SRC_DIR);
