@@ -42,7 +42,7 @@ public final class Xml2HammerMolecularTest extends LifecycleTestCase{
 
     public void testTransform() throws Exception {
         // FIX Use build properties here???
-        Source xsl = new StreamSource(new File("src/core/hammer/ant/helper/xml2hammer.xsl"));
+        Source xsl = new StreamSource(new File("bootstrap/misc/xml2hammer.xsl"));
         Source data = new StreamSource(new File("test/data/xml2hammer.xml"));
         checkTransform(xsl, data, expected);
     }

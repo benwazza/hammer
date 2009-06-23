@@ -42,6 +42,7 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
     private static final File SRC_TGZ = new File(INSTALLS_DIR, versionName("-src.tar.gz"));
     private static final File BOOTSTRAP_DIR = new File(BASE_DIR, "bootstrap");
     private static final File BOOTSTRAP_BIN_DIR = new File(BOOTSTRAP_DIR, "bin");
+    private static final File BOOTSTRAP_MISC_DIR = new File(BOOTSTRAP_DIR, "misc");
     private static final File BOOTSTRAP_LIB_DIR = new File(BOOTSTRAP_DIR, "lib");
     private static final File BOOST_DIR = new File(LIB_DIR, "boost");
     private static final File BOOST_JAR = new File(BOOST_DIR, "boost.jar");
@@ -81,6 +82,8 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
     private void binDists() {
         ant.zip(ZIP,
             addToZip(BOOTSTRAP_BIN_DIR, "/bin", "744", "hammer"),
+            addToZip(BOOTSTRAP_BIN_DIR, "/bin", "744", "xml2hammer"),
+            addToZip(BOOTSTRAP_MISC_DIR, "/misc", "644", "xml2hammer.xsl"),
             addToZip(JARS_DIR, "/lib", "644", CORE_JAR.getName()),
             addToZip(JARS_DIR, "/lib", "644", SRC_JAR.getName()),
             addToZip(BOOST_DIR, "/lib", "644", BOOST_JAR.getName()),
@@ -102,7 +105,6 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
         self.jars();
         ant.copyToFile(CORE_JAR, new File(BOOTSTRAP_LIB_DIR, ARTIFACTS_NAME + ".jar"));
         ant.copyToDir(BOOST_JAR, BOOTSTRAP_LIB_DIR);
-        installXml2Hammer();
     }
 
     private Element addToZip(File dir, String zipPath, String perms, String pattern) {
@@ -121,14 +123,6 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
 
     private static String versionName(String suffix) {
         return ARTIFACTS_NAME + "-" + VERSION + suffix;
-    }
-
-    private void installXml2Hammer() {
-        File raw = new File(CORE_SRC_DIR, "hammer/ant/helper/xml2hammer");
-        File replaced = new File(BOOTSTRAP_BIN_DIR, "xml2hammer");
-        ant.copyToDir(raw, BOOTSTRAP_BIN_DIR);
-        ant.replaceInFile(replaced, "@base.path@", "../..");
-        ant.chmod(replaced, "744");
     }
 
     // TODO Split out

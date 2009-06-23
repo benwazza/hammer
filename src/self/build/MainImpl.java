@@ -26,6 +26,7 @@ public final class MainImpl implements Main {
     public void all() {
         me.quality();
         pkg.dist();
+        pkg.updateBootstrap();
     }
 
     public void quality() {

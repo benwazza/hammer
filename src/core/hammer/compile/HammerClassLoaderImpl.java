@@ -21,10 +21,32 @@ public final class HammerClassLoaderImpl extends ClassLoader implements HammerCl
     public Class<?> findClass(String name) throws ClassNotFoundException {
         if (manager == null || !manager.can(name)) return super.findClass(name);
         byte[] bytes = manager.grab(name);
-        return super.defineClass(name, bytes, 0, bytes.length);
+        return defineClass(name, bytes);
     }
 
     public void setManager(MemoryFileManager manager) {
         this.manager = manager;
+    }
+
+    private Class<?> defineClass(String name, byte[] bytes) {
+        definePackage(name);
+        return super.defineClass(name, bytes, 0, bytes.length);
+    }
+
+    private void definePackage(String name) {
+        String pkgname = packageName(name);
+        if (!pkgname.isEmpty() && !packageDefined(pkgname))
+            definePackage(pkgname, null, null, null, null, null, null, null);
+    }
+
+    private String packageName(String className) {
+        String pkgName = "";
+        int i = className.lastIndexOf('.');
+        if (i != -1) pkgName = className.substring(0, i);
+        return pkgName;
+    }
+
+    private boolean packageDefined(String pkgname) {
+        return getPackage(pkgname) != null;
     }
 }
