@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hammer.self;
+package build;
 
 import hammer.core.Build;
 import hammer.core.BuildInfo;

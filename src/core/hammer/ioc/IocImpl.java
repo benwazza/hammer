@@ -20,14 +20,20 @@ import au.net.netstorm.boost.spider.api.config.wire.Wire;
 import au.net.netstorm.boost.spider.api.runtime.Spider;
 import au.net.netstorm.boost.spider.ioc.BoostWeb;
 import hammer.config.BuildConfig;
+import hammer.config.BuildConfigImpl;
 
 public final class IocImpl implements Ioc {
+    
     private final Spider spider = new SpiderEgg(BoostWeb.class, HammerWeb.class).hatch();
     private final Wire wire = resolve(Wire.class);
 
     public IocImpl(BuildConfig config) {
         instance(Ioc.class, this);
         instance(BuildConfig.class, config);
+    }
+
+    public IocImpl() {
+        this(new BuildConfigImpl());
     }
 
     public void inject(Object ref) {

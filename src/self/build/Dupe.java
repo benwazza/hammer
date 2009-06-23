@@ -14,14 +14,17 @@
  *  limitations under the License.
  */
 
-package hammer.self;
+package build;
 
-import hammer.ant.helper.Ant;
+import hammer.core.BuildTasks;
+import hammer.publish.Publish;
 
-public final class PrepareImpl implements Prepare, BuildConstants {
-    Ant ant;
+public interface Dupe extends BuildTasks {
 
-    public void clean() {
-        ant.deleteDir(GEN_DIR);
-    }
+    @Publish("Run duplication checks.")
+    void run();
+
+    void reportDupe();
+
+    boolean checkDupe();
 }

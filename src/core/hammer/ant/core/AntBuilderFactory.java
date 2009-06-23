@@ -14,16 +14,8 @@
  *  limitations under the License.
  */
 
-package hammer.self;
+package hammer.ant.core;
 
-import hammer.core.BuildTasks;
-import hammer.publish.Publish;
-
-public interface Main extends BuildTasks {
-
-    @Publish("Build everything!")
-    void all();
-
-    @Publish("Run code quality checks, including tests.")
-    void quality();
+public interface AntBuilderFactory {
+    AntBuilder nu();
 }

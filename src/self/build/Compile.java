@@ -14,12 +14,18 @@
  *  limitations under the License.
  */
 
-package hammer.self;
+package build;
 
 import hammer.core.BuildTasks;
 
-public interface Quality extends BuildTasks {
-    void preCompile();
+public interface Compile extends BuildTasks {
+    void compile();
 
-    void postCompile();
+    void compileTest();
+
+    void compileCore();
+
+    void compileDemo();
+
+    void compileSelf();
 }

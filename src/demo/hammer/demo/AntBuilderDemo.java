@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package hammer.self;
+package hammer.demo;
 
-import hammer.core.BuildTasks;
+import hammer.ant.core.AntBuilder;
+import hammer.ant.core.AntBuilderFactory;
+import hammer.ant.core.AntBuilderFactoryImpl;
+import static hammer.ant.core.AntXml.e;
 
-public interface Tests extends BuildTasks, BuildConstants {
-    void runTests();
+public final class AntBuilderDemo {
 
-    void reportTests();
-
-    boolean checkTests();
+    public static void main(String[] args) {
+        AntBuilderFactory factory = new AntBuilderFactoryImpl();
+        AntBuilder antBuilder = factory.nu();
+        antBuilder.execute(e("echo", "Hello World!"));
+    }
 }

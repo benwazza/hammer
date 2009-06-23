@@ -14,18 +14,16 @@
  *  limitations under the License.
  */
 
-package hammer.self;
+package build;
 
 import hammer.core.BuildTasks;
+import hammer.publish.Publish;
 
-public interface Compile extends BuildTasks {
-    void compile();
+public interface Main extends BuildTasks {
 
-    void compileTest();
+    @Publish("Build everything!")
+    void all();
 
-    void compileCore();
-
-    void compileDemo();
-
-    void compileSelf();
+    @Publish("Run code quality checks, including tests.")
+    void quality();
 }

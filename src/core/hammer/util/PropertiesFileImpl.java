@@ -31,10 +31,14 @@ public final class PropertiesFileImpl implements PropertiesFile {
         props = props(filename);
     }
 
-    public String getProperty(String name) {
+    public String prop(String name) {
         String val = props.getProperty(name);
-        if (val != null) return val;
-        throw new BuildConfigException(name);
+        if (val == null) throw new BuildConfigException(name);
+        return val;
+    }
+
+    public boolean has(String name) {
+        return props.getProperty(name) != null;
     }
 
     private Properties props(String filename) {

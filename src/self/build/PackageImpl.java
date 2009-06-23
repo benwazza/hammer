@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package hammer.self;
+package build;
 
 import static hammer.ant.core.AntXml.a;
 import static hammer.ant.core.AntXml.e;
@@ -63,7 +63,7 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
     public void jars() {
         compile.compile();
         ant.mkDir(JARS_DIR);
-        ant.copyToDir(CORE_CLASS_DIR, fileSet(CORE_SRC_DIR, include("**/*.xsl")));
+        ant.copyToDir(CORE_CLASS_DIR, fileSet(CORE_SRC_DIR, include("**/xml2hammer.xsl")));
         makeJar(CORE_JAR, CORE_CLASS_DIR);
         makeJar(SRC_JAR, CORE_SRC_DIR);
         makeJar(DEMO_JAR, DEMO_SRC_DIR);
@@ -102,6 +102,7 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
         self.jars();
         ant.copyToFile(CORE_JAR, new File(BOOTSTRAP_LIB_DIR, ARTIFACTS_NAME + ".jar"));
         ant.copyToDir(BOOST_JAR, BOOTSTRAP_LIB_DIR);
+        installXml2Hammer();
     }
 
     private Element addToZip(File dir, String zipPath, String perms, String pattern) {
@@ -120,6 +121,14 @@ public final class PackageImpl implements Package, BuildConstants, Constants {
 
     private static String versionName(String suffix) {
         return ARTIFACTS_NAME + "-" + VERSION + suffix;
+    }
+
+    private void installXml2Hammer() {
+        File raw = new File(CORE_SRC_DIR, "hammer/ant/helper/xml2hammer");
+        File replaced = new File(BOOTSTRAP_BIN_DIR, "xml2hammer");
+        ant.copyToDir(raw, BOOTSTRAP_BIN_DIR);
+        ant.replaceInFile(replaced, "@base.path@", "../..");
+        ant.chmod(replaced, "744");
     }
 
     // TODO Split out

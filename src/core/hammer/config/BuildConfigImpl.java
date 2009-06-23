@@ -36,15 +36,20 @@ public final class BuildConfigImpl implements Constants, BuildConfig {
         return publish;
     }
 
+    // FIX Should this take a class??
+    // FIX Could use commons logging framework to ask this question
+    // FIX Spilt out
     public boolean levelEnabled(LogLevel level) {
         int code = getCode(level);
         return code <= enabledLevel;
     }
 
+    // FIX Spilt out
     public boolean trace() {
         return levelEnabled(LogLevel.TRACE);
     }
 
+    // FIX Spilt out
     private int getCode(LogLevel level) {
         if (level == LogLevel.ERROR) return 1;
         if (level == LogLevel.WARN) return 2;

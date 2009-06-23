@@ -14,24 +14,12 @@
  *  limitations under the License.
  */
 
-package hammer.self;
+package build;
 
-public final class MainImpl implements Main {
-    Artifacts artifacts;
-    Prepare prepare;
-    Quality quality;
-    Package pkg;
-    Main me;
+import hammer.core.BuildTasks;
+import hammer.publish.Publish;
 
-    public void all() {
-        me.quality();
-        pkg.dist();
-    }
-
-    public void quality() {
-        prepare.clean();
-        artifacts.publish();
-        quality.preCompile();
-        quality.postCompile();
-    }
+public interface Prepare extends BuildTasks {
+    @Publish("Delete all generated files.")
+    void clean();
 }

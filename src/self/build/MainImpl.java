@@ -14,8 +14,24 @@
  *  limitations under the License.
  */
 
-package hammer.ant.core;
+package build;
 
-public interface AntBuilderCreator {
-    AntBuilder create();
+public final class MainImpl implements Main {
+    Artifacts artifacts;
+    Prepare prepare;
+    Quality quality;
+    Package pkg;
+    Main me;
+
+    public void all() {
+        me.quality();
+        pkg.dist();
+    }
+
+    public void quality() {
+        prepare.clean();
+        artifacts.publish();
+        quality.preCompile();
+        quality.postCompile();
+    }
 }

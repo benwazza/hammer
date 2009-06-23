@@ -34,6 +34,7 @@ public final class HammerAntLogger implements BuildLogger, Constants {
     LogLevelTranslator translator;
     ThrowableMaster tosser;
     LogIndenter indenter;
+    // FIX Ant stuff should not depend on entire Hammer config - make AntConfig object.
     BuildConfig config;
     Log log;
 

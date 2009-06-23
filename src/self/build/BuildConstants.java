@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package hammer.self;
+package build;
 
 import static hammer.ant.core.AntXml.classPath;
 import static hammer.ant.core.AntXml.fileSet;

@@ -23,7 +23,7 @@ public class AntTasksTest extends LifecycleTestCase {
 
     public void testBuild() {
         // TODO set this up in the test lifecycle
-//        AntBuilderCreator creator = new AntBuilderCreatorImpl();
+//        AntBuilderFactory creator = new AntBuilderFactoryImpl();
 //        AntBuilder builder = creator.create();
 //        builder.execute(
 //            n("copy", a("todir", "."), a("overwrite", "true"),

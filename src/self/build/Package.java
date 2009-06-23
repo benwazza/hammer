@@ -14,12 +14,18 @@
  *  limitations under the License.
  */
 
-package hammer.self;
+package build;
 
 import hammer.core.BuildTasks;
 import hammer.publish.Publish;
 
-public interface Prepare extends BuildTasks {
-    @Publish("Delete all generated files.")
-    void clean();
+public interface Package extends BuildTasks {
+
+    void jars();
+
+    @Publish("Produce the distributable zip and tar")
+    void dist();
+
+    @Publish("Update the bootstrap jars")
+    void updateBootstrap();
 }

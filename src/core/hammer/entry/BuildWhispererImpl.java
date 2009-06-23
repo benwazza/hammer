@@ -17,6 +17,7 @@
 package hammer.entry;
 
 import au.net.netstorm.boost.gunge.sledge.java.lang.EdgeClass;
+import au.net.netstorm.boost.spider.api.config.scope.Scoper;
 import hammer.compile.ClasspathMaster;
 import hammer.compile.HammerClassLoader;
 import hammer.compile.HammerCompiler;
@@ -29,30 +30,48 @@ import hammer.util.PropertiesFile;
 
 import java.io.File;
 
+// DEBT ClassFanOut {
 public final class BuildWhispererImpl implements BuildWhisperer, Constants {
+
+    private static final String BUILD_CLASSPATH = "build.classpath";
+    private static final String BUILD_SRC_DIR = "build.src.dir";
+    private static final String BUILD_CLASS = "build.class";
+    private static final String IOC_SCOPE = "ioc.scope";
+
     ToolsJarLocator toolsLocator;
     ClasspathMaster classpather;
     HammerClassLoader loader;
     HammerCompiler compiler;
     FileFinder fileFinder;
     EdgeClass classer;
+    Scoper scoper;
     Ioc ioc;
 
     public Build createBuild() {
         PropertiesFile props = ioc.nu(PropertiesFile.class);
         props.load(PROPERTIES_FILENAME);
         prepareLoader(props);
-        return instatiateBuild(props);
+        return instantiateBuild(props);
     }
 
-    private Build instatiateBuild(PropertiesFile props) {
-        String buildClassName = props.getProperty("build.class");
+    private Build instantiateBuild(PropertiesFile props) {
+        String buildClassName = props.prop(BUILD_CLASS);
         Class<?> buildClass = forName(buildClassName, (ClassLoader) loader);
+        scope(buildClass, props);
         return (Build) classer.newInstance(buildClass);
     }
 
+    private void scope(Class<?> buildClass, PropertiesFile props) {
+        Package pkg = buildClass.getPackage();
+        scoper.scope(pkg.getName());
+        if (props.has(IOC_SCOPE)) {
+            String scope = props.prop(IOC_SCOPE);
+            scoper.scope(scope);
+        }
+    }
+
     private void prepareLoader(PropertiesFile props) {
-        String classpath = props.getProperty("build.classpath");
+        String classpath = props.prop(BUILD_CLASSPATH);
         classpath = toolsLocator.addToPath(classpath);
         MemoryFileManager fileManager = compileBuild(props, classpath);
         classpather.extend(classpath);
@@ -60,7 +79,7 @@ public final class BuildWhispererImpl implements BuildWhisperer, Constants {
     }
 
     private MemoryFileManager compileBuild(PropertiesFile props, String classpath) {
-        String src = props.getProperty("build.src.dir");
+        String src = props.prop(BUILD_SRC_DIR);
         File srcDir = new File(src);
         File[] javaFiles = fileFinder.findFiles(srcDir, ".java");
         return compiler.compile(javaFiles, classpath, loader);
@@ -75,3 +94,4 @@ public final class BuildWhispererImpl implements BuildWhisperer, Constants {
         }
     }
 }
+// } DEBT ClassFanOut

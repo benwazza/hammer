@@ -17,20 +17,30 @@
 package hammer.ant.core;
 
 import hammer.ioc.Ioc;
+import hammer.ioc.IocImpl;
 import org.apache.tools.ant.BuildLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.input.DefaultInputHandler;
 import org.apache.tools.ant.input.InputHandler;
 
-public final class AntBuilderCreatorImpl implements AntBuilderCreator {
+public final class AntBuilderFactoryImpl implements AntBuilderFactory {
     Ioc ioc;
 
-    public AntBuilder create() {
+    public AntBuilder nu() {
+        initIoc();
         Project project = new Project();
         configureLogging(project);
         setupInputHandler(project);
         project.init();
         return ioc.nu(AntBuilder.class, project);
+    }
+
+    // Convenience initialisation to enable simple use of this factory from arbitrary
+    // (Non-Hammer) Java code that does not want to know about or use our IOC.
+    private synchronized void initIoc() {
+        if (ioc == null) {
+            ioc = new IocImpl();
+        }
     }
 
     private void setupInputHandler(Project project) {

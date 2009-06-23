@@ -14,18 +14,12 @@
  *  limitations under the License.
  */
 
-package hammer.self;
+package build;
 
 import hammer.core.BuildTasks;
-import hammer.publish.Publish;
 
-public interface Package extends BuildTasks {
+public interface Quality extends BuildTasks {
+    void preCompile();
 
-    void jars();
-
-    @Publish("Produce the distributable zip and tar")
-    void dist();
-
-    @Publish("Update the bootstrap jars")
-    void updateBootstrap();
+    void postCompile();
 }

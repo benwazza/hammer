@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package hammer.util;
+package build;
 
-public interface PropertiesFile {
-    void load(String filename);
+import hammer.core.BuildTasks;
 
-    String prop(String name);
-
-    boolean has(String name);
+public interface Artifacts extends BuildTasks {
+    void publish();
 }

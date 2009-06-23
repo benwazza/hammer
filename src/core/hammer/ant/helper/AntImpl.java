@@ -18,7 +18,7 @@ package hammer.ant.helper;
 
 import au.net.netstorm.boost.spider.api.lifecycle.Constructable;
 import hammer.ant.core.AntBuilder;
-import hammer.ant.core.AntBuilderCreator;
+import hammer.ant.core.AntBuilderFactory;
 import hammer.ant.core.AntXml;
 import static hammer.ant.core.AntXml.a;
 import static hammer.ant.core.AntXml.e;
@@ -33,8 +33,8 @@ public final class AntImpl implements Ant, Constructable {
     Ioc ioc;
 
     public void constructor() {
-        AntBuilderCreator creator = ioc.nu(AntBuilderCreator.class);
-        builder = creator.create();
+        AntBuilderFactory factory = ioc.nu(AntBuilderFactory.class);
+        builder = factory.nu();
     }
 
     public void run(String elementName, Object... contents) {
@@ -106,6 +106,22 @@ public final class AntImpl implements Ant, Constructable {
     // FIX Move this into AntXml and delete
     public void exec(File dir, String executable, Attribute[] attrs, Element... contents) {
         run(e("exec", a("dir", dir), a("executable", executable)).with(attrs, contents));
+    }
+
+    public void replaceInDir(File dir, String token, String value) {
+        replace("dir", dir, token, value);
+    }
+
+    public void replaceInFile(File file, String token, String value) {
+        replace("file", file, token, value);
+    }
+
+    public void chmod(File file, String perms) {
+        run(e("chmod", a("file", file), a("perm", perms)));
+    }
+
+    public void replace(String type, File file, String token, String value) {
+        run(e("replace", a(type, file), a("token", token), a("value", value)));
     }
 
     private void delete(String fileOrDir, File file) {

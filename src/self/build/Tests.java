@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package hammer.self;
+package build;
 
 import hammer.core.BuildTasks;
 
-public interface Artifacts extends BuildTasks {
-    void publish();
+public interface Tests extends BuildTasks, BuildConstants {
+    void runTests();
+
+    void reportTests();
+
+    boolean checkTests();
 }

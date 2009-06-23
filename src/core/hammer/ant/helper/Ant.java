@@ -36,7 +36,7 @@ public interface Ant {
 
     void deleteFile(File file);
 
-    void copyToFile(File file, File toDir);
+    void copyToFile(File file, File toFile);
 
     void copyToDir(File file, File toDir);
 
@@ -53,4 +53,10 @@ public interface Ant {
     void exec(File dir, String executable, Element... contents);
 
     void exec(File dir, String executable, Attribute[] attrs, Element... contents);
+
+    void replaceInDir(File dir, String token, String value);
+
+    void replaceInFile(File file, String token, String value);
+
+    void chmod(File file, String perms);
 }

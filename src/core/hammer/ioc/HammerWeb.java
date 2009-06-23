@@ -32,7 +32,6 @@ public final class HammerWeb implements Web {
     Mapper mapper;
     Resolver resolver;
     Wire wire;
-    // FIX Need to make this configurable
     String scope = "hammer";
 
     public void web() {
@@ -42,6 +41,7 @@ public final class HammerWeb implements Web {
 
     private void logging() {
         wire.cls(TaskRegistryImpl.class).one().to(TaskRegistry.class);
+        // FIX Make log engine configurable
         wire.cls(BuildLogEngine.class).one().to(LogEngine.class);
         wire.cls(DelegatingLog.class).to(Log.class);
         // Singleton for indentation tracking
