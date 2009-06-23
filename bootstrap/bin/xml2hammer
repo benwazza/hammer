@@ -1,0 +1,12 @@
+#!/bin/bash
+
+misc_dir="$(dirname $0)/../misc"
+
+echo
+echo "Paste xml followed by a newline, then type ctrl-d:"
+echo
+result=$( xsltproc  "$misc_dir/xml2hammer.xsl" - )
+echo
+echo
+echo "$result"
+echo
